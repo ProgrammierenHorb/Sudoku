@@ -25,9 +25,6 @@ public class GUI {
         Var.buttonPanel.setBackground(Color.GRAY);
         Var.buttonPanel.setLayout(null);
 
-        JTextField textField = new JTextField();
-        Var.gridPanel.add(textField);
-
         Var.buttonExit = new JButton("Exit");
         CreateButton(Var.buttonExit, 10, 300);
 
@@ -43,6 +40,8 @@ public class GUI {
         do{
             System.out.println(i + "/" + j);
             if(j == 8 && i == 8){
+                Var.grid[i][j] = new JTextField();
+                CreateTextBox(Var.grid[i][j]);
                 break;
             }
             else if(i == 8){
@@ -63,9 +62,9 @@ public class GUI {
         }
         while(true);
 
-        draw = new DrawSudokuField();
-        draw.setBounds(0, 0, 500, 500);
-        draw.setVisible(true);
+       // draw = new DrawSudokuField();
+       // draw.setBounds(0, 0, 500, 500);
+        //draw.setVisible(true);
        // Var.gridPanel.add(draw);
 
         Var.frame.add(Var.gridPanel);
