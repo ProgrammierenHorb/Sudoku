@@ -25,53 +25,63 @@ public class GUI {
         Var.buttonPanel.setBackground(Color.GRAY);
         Var.buttonPanel.setLayout(null);
 
+        Var.drawPanel = new JPanel();
+        Var.drawPanel.setBounds(25, 25, 500, 500);
+        Var.drawPanel.setBackground(Color.GRAY);
+        Var.drawPanel.setLayout(null);
+
         Var.buttonExit = new JButton("Exit");
-        CreateButton(Var.buttonExit, 10, 300);
+        CreateButton(Var.buttonExit, 10, 400);
 
         Var.buttonResume = new JButton("Resume");
-        CreateButton(Var.buttonResume, 10, 200);
+        CreateButton(Var.buttonResume, 10, 275);
 
         Var.buttonNewGame = new JButton("New Game");
-        CreateButton(Var.buttonNewGame, 10, 100);
+        CreateButton(Var.buttonNewGame, 10, 150);
+
+        Var.buttonStr8ts = new JButton("Stra8ts");
+        CreateButton(Var.buttonStr8ts, 10, 25);
 
 
         int i = 0;
         int j = 0;
         do{
-            System.out.println(i + "/" + j);
             if(j == 8 && i == 8){
-                Var.grid[i][j] = new JTextField();
+                Var.grid[i][j] = new JTextField(i + "/" + j);
                 CreateTextBox(Var.grid[i][j]);
                 break;
             }
             else if(i == 8){
-                Var.grid[i][j] = new JTextField();
+                Var.grid[i][j] = new JTextField(i + "/" + j);
                 CreateTextBox(Var.grid[i][j]);
                 j++;
                 i = 0;
             }
             else if(i == 0 && j != 0){
-                Var.grid[i][j] = new JTextField();
+                Var.grid[i][j] = new JTextField(i + "/" + j);
                 CreateTextBox(Var.grid[i][j]);
                 i++;
             }else{
-                Var.grid[i][j] = new JTextField();
+                Var.grid[i][j] = new JTextField(i + "/" + j);
                 CreateTextBox(Var.grid[i][j]);
                 i++;
             }
         }
         while(true);
 
-       // draw = new DrawSudokuField();
-       // draw.setBounds(0, 0, 500, 500);
-        //draw.setVisible(true);
-       // Var.gridPanel.add(draw);
+        draw = new DrawSudokuField();
+        draw.setBounds(0, 0, 500, 500);
+        draw.setVisible(true);
+        //Var.drawPanel.add(draw);
 
-        Var.frame.add(Var.gridPanel);
+        //Var.frame.add(Var.gridPanel);
         Var.frame.add(Var.buttonPanel);
+        //Var.frame.add(Var.drawPanel);
+        Var.frame.add(draw);
         Var.frame.setVisible(true);
     }
     public void CreateTextBox(JTextField textField){
+        textField.setBorder(null);
         Var.gridPanel.add(textField);
     }
 

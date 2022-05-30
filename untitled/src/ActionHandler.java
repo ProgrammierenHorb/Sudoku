@@ -13,5 +13,8 @@ public class ActionHandler implements ActionListener {
         else if(e.getSource() == Var.buttonResume){
             //Code hier
         }
+        else if(e.getSource() == Var.buttonStr8ts){
+            //Code hier
+        }
     }
 }
