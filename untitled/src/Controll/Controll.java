@@ -16,7 +16,7 @@ public class Controll {
         SolvedGrid = SudokuSolver.solve(Grid);
     }
     public void CallSudokuGenerator(){
-        SolvedGrid = SudokuGenerator.getSolvedGrid();
-        Grid = SudokuGenerator.getGrid();
+        SolvedGrid = SudokuGenerator.GetSolvedGrid();
+        Grid = SudokuGenerator.GetGrid();
     }
 }

@@ -2,39 +2,38 @@ package Solver;
 import ADT.SudokuCell;
 
 public class Solver {
-
     public static void main(String[] args) {
 
-        int [][] grid = {{0, 0, 3, 7, 0, 0, 0, 0, 4},
-                         {0, 2, 0, 0, 9, 0, 6, 0, 0},
-                         {8, 0, 1, 0, 0, 0, 0, 0, 0},
-                         {5, 0, 0, 0, 4, 0, 2, 0, 6},
-                         {0, 0, 0, 0, 6, 8, 0, 9, 1},
-                         {6, 0, 0, 0, 0, 2, 0, 7, 0},
-                         {0, 0, 6, 0, 7, 0, 0, 0, 0},
-                         {0, 0, 7, 0, 0, 0, 0, 0, 2},
-                         {2, 0, 8, 0, 3, 0, 0, 1, 9}};
+        //SudokuCell [][] grid = {{0, 0, 3, 7, 0, 0, 0, 0, 4},
+        //               {0, 2, 0, 0, 9, 0, 6, 0, 0},
+        //               {8, 0, 1, 0, 0, 0, 0, 0, 0},
+        //               {5, 0, 0, 0, 4, 0, 2, 0, 6},
+        //               {0, 0, 0, 0, 6, 8, 0, 9, 1},
+        //               {6, 0, 0, 0, 0, 2, 0, 7, 0},
+        //               {0, 0, 6, 0, 7, 0, 0, 0, 0},
+        //               {0, 0, 7, 0, 0, 0, 0, 0, 2},
+        //               {2, 0, 8, 0, 3, 0, 0, 1, 9}};
 
 
-        print(grid);
-        System.out.println("");
-        System.out.println("-------------------------");
-        System.out.println("");
-        solve(grid);
+        //print(grid);
+        //System.out.println("");
+        //System.out.println("-------------------------");
+        //System.out.println("");
+        //solve(grid);
 
     }
 
-    public static boolean possible(int n, int y, int x, int[][] grid){
+    public static boolean possible(int n, int y, int x, SudokuCell[][] grid){
 
         int box_x;
         int box_y;
 
         for(int horizontal = 0; horizontal < 9; horizontal++){
-            if(grid[y][horizontal] == n) return false;
+            if(grid[y][horizontal].GetIntValue() == n) return false;
         }
 
         for(int vertical = 0; vertical < 9; vertical++){
-            if(grid[vertical][x] == n) return false;
+            if(grid[vertical][x].GetIntValue() == n) return false;
         }
 
         box_x = (int) (x / 3) * 3;
@@ -42,22 +41,22 @@ public class Solver {
 
         for(int i = box_x; i < box_x + 3; i++){
             for(int j = box_y; j < box_y + 3; j++){
-                if(grid[j][i] == n) return false;
+                if(grid[j][i].GetIntValue() == n) return false;
             }
         }
 
         return true;
     }
 
-    public static int[][] solve(int[][] grid){
+    public static SudokuCell[][] solve(SudokuCell[][] grid){
         for(int y = 0; y < 9; y++){
             for(int x = 0; x < 9; x++) {
-                if(grid[y][x] == 0){
+                if(grid[y][x].GetIntValue() == 0){
                     for(int n = 1; n < 10; n++){
                         if(possible(n, y, x, grid)) {
-                            grid[y][x] = n;
+                            grid[y][x].SetValue(n);
                             solve(grid);
-                            grid[y][x] = 0;
+                            grid[y][x].SetValue(0);
                         }
                     }
                     return grid;
@@ -68,11 +67,11 @@ public class Solver {
         return grid;
     }
 
-    public static void print(int[][] grid){
+    public static void print(SudokuCell[][] grid){
         System.out.println("");
         for(int y = 0; y < 9; y++){
             for(int x = 0; x < 9; x++){
-                System.out.print(grid[y][x]);
+                System.out.print(grid[y][x].GetIntValue());
                 System.out.print(" ");
             }
             System.out.println("");

@@ -7,6 +7,11 @@ public class SudokuCell {
     private boolean IsLocked;
 
     public SudokuCell(){}
+    public SudokuCell(int ValInt, String ValStr, boolean Lock){
+        CellString = ValStr;
+        CellInt = ValInt;
+        IsLocked = Lock;
+    }
 
     public void SetValue(String Value){
         CellString = Value;

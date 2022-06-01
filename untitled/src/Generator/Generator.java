@@ -6,14 +6,14 @@ public class Generator {
     SudokuCell[][] SolvedGrid = new SudokuCell[9][9];
 
     public Generator(){}
-    public SudokuCell[][] getSolvedGrid(){
+    public SudokuCell[][] GetSolvedGrid(){
 
 
 
         return SolvedGrid;
     }
 
-    public SudokuCell[][] getdGrid(){
+    public SudokuCell[][] GetGrid(){
 
 
 
