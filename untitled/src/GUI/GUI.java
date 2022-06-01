@@ -1,8 +1,10 @@
+package GUI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
+import ADT.SudokuCell;
 
 public class GUI {
     DrawSudokuField draw;
@@ -72,11 +74,11 @@ public class GUI {
         draw = new DrawSudokuField();
         draw.setBounds(0, 0, 500, 500);
         draw.setVisible(true);
-        //Var.drawPanel.add(draw);
+        //GUI.Var.drawPanel.add(draw);
 
-        //Var.frame.add(Var.gridPanel);
+        //GUI.Var.frame.add(GUI.Var.gridPanel);
         Var.frame.add(Var.buttonPanel);
-        //Var.frame.add(Var.drawPanel);
+        //GUI.Var.frame.add(GUI.Var.drawPanel);
         Var.frame.add(draw);
         Var.frame.setVisible(true);
     }
