@@ -17,6 +17,6 @@ public class Controll {
     }
     public void CallSudokuGenerator(){
         SolvedGrid = SudokuGenerator.GetSolvedGrid();
-        Grid = SudokuGenerator.GetGrid();
+        Grid = SudokuGenerator.GetSolvableGrid(SolvedGrid);
     }
 }
