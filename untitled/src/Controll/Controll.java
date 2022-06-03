@@ -23,14 +23,9 @@ public class Controll {
     public void callSudokuSolver(SudokuCell[][] grid){
         grid = sudokuSolver.solve(grid);
     }
-    public SudokuCell[][] callSudokuGenerator(SudokuCell[][] grid){
+    public void callSudokuGenerator(SudokuCell[][] grid){
         sudokuGenerator.getSolvedGrid(grid);
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                grid[i][j].drawValueOnGUI();
-            }
-        }
 
-        return grid;
+        
     }
 }

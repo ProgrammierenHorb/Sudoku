@@ -23,6 +23,7 @@ public class SudokuCell extends JTextField {
     }
     public void setValue(int Value){
         cellInt = Value;
+        drawValueOnGUI();
     }
     public String getStringValue(){
         return String.valueOf(cellInt);
