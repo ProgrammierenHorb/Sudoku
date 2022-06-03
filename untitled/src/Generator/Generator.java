@@ -18,17 +18,17 @@ public class Generator {
                 testgrid[i][j] = new SudokuCell(0,false);
             }
         }
-
     }
-    public SudokuCell[][] getSolvedGrid(){
-        SudokuCell[][] solvedGrid = new SudokuCell[9][9];
-        for(int i = 0 ; i<9; i++){
-            for(int j = 0 ; j<9; j++){
-                solvedGrid[i][j] = new SudokuCell(0,false);
+    public SudokuCell[][] getSolvedGrid(SudokuCell[][] grid){
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                grid[i][j].setValue(0);
             }
         }
-        solvedGrid = fillGrid(solvedGrid);
-        return solvedGrid;
+        fillGrid(grid);
+        solver.print(grid);
+        kill = false;
+        return grid;
     }
 
     public SudokuCell[][] getSolvableGrid(SudokuCell[][] FullGrid){
@@ -57,7 +57,6 @@ public class Generator {
             }
         }
         kill = true;
-        System.out.println(grid);
         return grid;
     }
 }

@@ -67,7 +67,7 @@ public class Solver {
         return grid;
     }
 
-    public static void print(SudokuCell[][] grid){
+    public void print(SudokuCell[][] grid){
         System.out.println("");
         for(int y = 0; y < 9; y++){
             for(int x = 0; x < 9; x++){
