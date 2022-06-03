@@ -19,11 +19,17 @@ public class Controll {
   
 
     public void callSudokuSolver(SudokuCell[][] grid){
-        solvedGrid = sudokuSolver.solve(grid);
+        grid = sudokuSolver.solve(grid);
     }
     public SudokuCell[][] callSudokuGenerator(){
-        solvedGrid = sudokuGenerator.getSolvedGrid();
-        grid = sudokuGenerator.getSolvableGrid(solvedGrid);
+        grid = sudokuGenerator.getSolvedGrid();
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                grid[i][j].drawValueOnGUI();
+                System.out.println(grid[i][j].getIntValue());
+            }
+        }
+      //grid = sudokuGenerator.getSolvableGrid(solvedGrid);
 
         return grid;
     }

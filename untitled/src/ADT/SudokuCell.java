@@ -7,10 +7,15 @@ public class SudokuCell extends JTextField {
     private int cellInt;
     private boolean isLocked;
 
-    public SudokuCell(){}
+    public SudokuCell(){
+        cellInt = 0;
+        isLocked = false;
+        drawValueOnGUI();
+    }
     public SudokuCell(int ValInt, boolean Lock){
         cellInt = ValInt;
         isLocked = Lock;
+        drawValueOnGUI();
     }
 
     public void setValue(String Value){
@@ -30,5 +35,8 @@ public class SudokuCell extends JTextField {
     }
     public boolean isLocked(){
         return isLocked;
+    }
+    public void drawValueOnGUI(){
+        setText(String.valueOf(cellInt));
     }
 }

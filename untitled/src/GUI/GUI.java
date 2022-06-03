@@ -10,7 +10,7 @@ import Controll.Controll;
 public class GUI {
     private DrawSudokuField draw;
     private JFrame frame;
-    private SudokuCell [][] grid = new SudokuCell[9][9];
+    private SudokuCell[][] grid = new SudokuCell[9][9];
     private JPanel gridPanel, buttonPanel, drawPanel;
     private JButton buttonSolve, buttonNewGame, buttonExit, buttonStr8ts;
     private Controll theControll;
@@ -109,7 +109,7 @@ public class GUI {
         button.setFont(new Font("Arial", Font.BOLD, 40));
         button.setBorder(null);
         button.setFocusPainted(false);
-        button.addActionListener(new ActionHandler(buttonExit, buttonNewGame, buttonStr8ts, buttonSolve, grid));
+        button.addActionListener(new ActionHandler(buttonExit, buttonNewGame, buttonStr8ts, buttonSolve, grid, theControll));
         JButton finalButton = button;
         button.addMouseListener(new MouseAdapter() {
             @Override
