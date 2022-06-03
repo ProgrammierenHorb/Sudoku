@@ -4,19 +4,19 @@ import Solver.Solver;
 import Generator.Generator;
 
 public class Controll {
-    Solver SudokuSolver = new Solver();
-    Generator SudokuGenerator = new Generator();
-    SudokuCell[][] Grid = new SudokuCell[9][9];
-    SudokuCell[][] SolvedGrid = new SudokuCell[9][9];
+    Solver sudokuSolver = new Solver();
+    Generator sudokuGenerator = new Generator();
+    SudokuCell[][] grid = new SudokuCell[9][9];
+    SudokuCell[][] solvedGrid = new SudokuCell[9][9];
     public Controll(){
 
     }
 
-    public void CallSudokuSolver(){
-        SolvedGrid = SudokuSolver.solve(Grid);
+    public void callSudokuSolver(){
+        solvedGrid = sudokuSolver.solve(grid);
     }
-    public void CallSudokuGenerator(){
-        SolvedGrid = SudokuGenerator.GetSolvedGrid();
-        Grid = SudokuGenerator.GetSolvableGrid(SolvedGrid);
+    public void callSudokuGenerator(){
+        solvedGrid = sudokuGenerator.getSolvedGrid();
+        grid = sudokuGenerator.getSolvableGrid(solvedGrid);
     }
 }

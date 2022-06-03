@@ -2,36 +2,32 @@ package ADT;
 
 public class SudokuCell {
 
-    private String CellString;
-    private int CellInt;
-    private boolean IsLocked;
+    private int cellInt;
+    private boolean isLocked;
 
     public SudokuCell(){}
-    public SudokuCell(int ValInt, String ValStr, boolean Lock){
-        CellString = ValStr;
-        CellInt = ValInt;
-        IsLocked = Lock;
+    public SudokuCell(int ValInt, boolean Lock){
+        cellInt = ValInt;
+        isLocked = Lock;
     }
 
-    public void SetValue(String Value){
-        CellString = Value;
-        CellInt = Integer. parseInt(Value);
+    public void setValue(String Value){
+        cellInt = Integer. parseInt(Value);
 
     }
-    public void SetValue(int Value){
-        CellInt = Value;
-        CellString = Integer.toString(Value) ;
+    public void setValue(int Value){
+        cellInt = Value;
     }
-    public String GetStringValue(){
-        return CellString;
+    public String getStringValue(){
+        return String.valueOf(cellInt);
     }
-    public int GetIntValue(){
-        return CellInt;
+    public int getIntValue(){
+        return cellInt;
     }
-    public void SetLock(boolean L){
-        IsLocked = L;
+    public void setLock(boolean L){
+        isLocked = L;
     }
-    public boolean IsLocked(){
-        return IsLocked;
+    public boolean isLocked(){
+        return isLocked;
     }
 }
