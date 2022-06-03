@@ -9,13 +9,15 @@ import Controll.Controll;
 
 public class GUI {
     private DrawSudokuField draw;
-    private JFrame frame;
-    private SudokuCell[][] grid = new SudokuCell[9][9];
-    private JPanel gridPanel, buttonPanel, drawPanel;
+    public JFrame frame;
+    public SudokuCell[][] grid;
+    public JPanel gridPanel, buttonPanel, drawPanel;
     private JButton buttonSolve, buttonNewGame, buttonExit, buttonStr8ts;
     private Controll theControll;
     public GUI(Controll theControll){
         this.theControll = theControll;
+
+        grid = new SudokuCell[9][9];
         frame = new JFrame("Sudoku");
         frame.setResizable(false);
         frame.setSize(900, 600);
@@ -40,43 +42,24 @@ public class GUI {
         drawPanel.setLayout(null);
 
         buttonExit = new JButton("Exit");
-        CreateButton(buttonExit, 10, 400);
+        createButton(buttonExit, 10, 400);
 
         buttonSolve = new JButton("Solve");
-        CreateButton(buttonSolve, 10, 275);
+        createButton(buttonSolve, 10, 275);
 
         buttonNewGame = new JButton("New Game");
-        CreateButton(buttonNewGame, 10, 150);
+        createButton(buttonNewGame, 10, 150);
 
         buttonStr8ts = new JButton("Stra8ts");
-        CreateButton(buttonStr8ts, 10, 25);
+        createButton(buttonStr8ts, 10, 25);
 
-
-        int i = 0;
-        int j = 0;
-        do{
-            if(j == 8 && i == 8){
-                grid[i][j] = new SudokuCell();
-                CreateTextBox(grid[i][j]);
-                break;
-            }
-            else if(i == 8){
-                grid[i][j] = new SudokuCell();
-                CreateTextBox(grid[i][j]);
-                j++;
-                i = 0;
-            }
-            else if(i == 0 && j != 0){
-                grid[i][j] = new SudokuCell();
-                CreateTextBox(grid[i][j]);
-                i++;
-            }else{
-                grid[i][j] = new SudokuCell();
-                CreateTextBox(grid[i][j]);
-                i++;
+        //Füllt das Sudokufeld Array mit SudokuCell Objekten
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                grid[i][j] = new SudokuCell(8, true);
+                createTextBox(grid[i][j]);
             }
         }
-        while(true);
 
         draw = new DrawSudokuField();
         draw.setBounds(0, 0, 500, 500);
@@ -90,7 +73,7 @@ public class GUI {
         //Var.frame.add(draw);
         frame.setVisible(true);
     }
-    public void CreateTextBox(SudokuCell sudokuCell){
+    public void createTextBox(SudokuCell sudokuCell){
         //textField.setBorder(null);
         sudokuCell.addMouseListener(new MouseAdapter() {
             @Override
@@ -102,7 +85,7 @@ public class GUI {
         gridPanel.add(sudokuCell);
     }
 
-    public void CreateButton(JButton button, int x, int y){
+    public void createButton(JButton button, int x, int y){
         button.setBounds(x, y, 275, 75);
         button.setBackground(Color.GRAY);
         button.setForeground(Color.BLACK);
