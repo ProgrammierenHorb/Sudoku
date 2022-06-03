@@ -4,52 +4,52 @@ import ADT.SudokuCell;
 public class Generator {
 
     public Generator(){}
-    public SudokuCell[][] GetSolvedGrid(){
-        SudokuCell[][] SolvedGrid = new SudokuCell[9][9];
+    public SudokuCell[][] getSolvedGrid(){
+        SudokuCell[][] solvedGrid = new SudokuCell[9][9];
         for(int i = 0 ; i<9; i++){
             for(int j = 0 ; j<9; j++){
-                SolvedGrid[i][j] = new SudokuCell(0,"0",false);
+                solvedGrid[i][j] = new SudokuCell(0,false);
             }
         }
 
-        return SolvedGrid;
+        return solvedGrid;
     }
 
-    public SudokuCell[][] GetSolvableGrid(SudokuCell[][] FullGrid){
-        SudokuCell[][] Grid = new SudokuCell[9][9];
-        FillGrid(Grid);
-        return Grid;
+    public SudokuCell[][] getSolvableGrid(SudokuCell[][] FullGrid){
+        SudokuCell[][] grid = new SudokuCell[9][9];
+        fillGrid(grid);
+        return grid;
     }
 
-    public SudokuCell[][] FillGrid(SudokuCell[][] Grid){
+    public SudokuCell[][] fillGrid(SudokuCell[][] grid){
         //Grid[row][col]
         for(int col = 0 ; col<9; col++){
             for(int row = 0 ; row<9; row++) {
-                if (Grid[row][col].GetIntValue() == 0) {
-                    boolean End = false;
+                if (grid[row][col].getIntValue() == 0) {
+                    boolean end = false;
                     do{
-                        int RandNum = (int) (Math.random() * 9 + 1);
-                        boolean IsOK = true;
+                        int randNum = (int) (Math.random() * 9 + 1);
+                        boolean isOK = true;
                         //check row
-                        if (IsOK == true) {
+                        if (isOK == true) {
                             for (int i = 0; i < 9; i++) {
-                                if (Grid[row][i].GetIntValue() == RandNum) {
-                                    IsOK = false;
+                                if (grid[row][i].getIntValue() == randNum) {
+                                    isOK = false;
                                     break;
                                 }
                             }
                         }
                         //check column
-                        if (IsOK == true) {
+                        if (isOK == true) {
                             for (int i = 0; i < 9; i++) {
-                                if (Grid[row][i].GetIntValue() == RandNum) {
-                                    IsOK = false;
+                                if (grid[row][i].getIntValue() == randNum) {
+                                    isOK = false;
                                     break;
                                 }
                             }
                         }
                         //check square
-                        if (IsOK == true) {
+                        if (isOK == true) {
                             //get square number
                             double r = row / 3;
                             double c = col / 3;
@@ -58,8 +58,8 @@ public class Generator {
                                 if (c < 1) {
                                     for (int rr = 0; rr < 3; rr++) {
                                         for (int cc = 0; cc < 3; cc++) {
-                                            if (Grid[rr][cc].GetIntValue() == RandNum) {
-                                                IsOK = false;
+                                            if (grid[rr][cc].getIntValue() == randNum) {
+                                                isOK = false;
                                                 break;
                                             }
                                         }
@@ -67,8 +67,8 @@ public class Generator {
                                 } else if (c < 2) {
                                     for (int rr = 0; rr < 3; rr++) {
                                         for (int cc = 3; cc < 6; cc++) {
-                                            if (Grid[rr][cc].GetIntValue() == RandNum) {
-                                                IsOK = false;
+                                            if (grid[rr][cc].getIntValue() == randNum) {
+                                                isOK = false;
                                                 break;
                                             }
                                         }
@@ -76,8 +76,8 @@ public class Generator {
                                 } else if (c < 3) {
                                     for (int rr = 0; rr < 3; rr++) {
                                         for (int cc = 6; cc < 9; cc++) {
-                                            if (Grid[rr][cc].GetIntValue() == RandNum) {
-                                                IsOK = false;
+                                            if (grid[rr][cc].getIntValue() == randNum) {
+                                                isOK = false;
                                                 break;
                                             }
                                         }
@@ -87,8 +87,8 @@ public class Generator {
                                 if (c < 1) {
                                     for (int rr = 3; rr < 6; rr++) {
                                         for (int cc = 0; cc < 3; cc++) {
-                                            if (Grid[rr][cc].GetIntValue() == RandNum) {
-                                                IsOK = false;
+                                            if (grid[rr][cc].getIntValue() == randNum) {
+                                                isOK = false;
                                                 break;
                                             }
                                         }
@@ -96,8 +96,8 @@ public class Generator {
                                 } else if (c < 2) {
                                     for (int rr = 3; rr < 6; rr++) {
                                         for (int cc = 3; cc < 6; cc++) {
-                                            if (Grid[rr][cc].GetIntValue() == RandNum) {
-                                                IsOK = false;
+                                            if (grid[rr][cc].getIntValue() == randNum) {
+                                                isOK = false;
                                                 break;
                                             }
                                         }
@@ -105,8 +105,8 @@ public class Generator {
                                 } else if (c < 3) {
                                     for (int rr = 3; rr < 6; rr++) {
                                         for (int cc = 6; cc < 9; cc++) {
-                                            if (Grid[rr][cc].GetIntValue() == RandNum) {
-                                                IsOK = false;
+                                            if (grid[rr][cc].getIntValue() == randNum) {
+                                                isOK = false;
                                                 break;
                                             }
                                         }
@@ -116,8 +116,8 @@ public class Generator {
                                 if (c < 1) {
                                     for (int rr = 6; rr < 9; rr++) {
                                         for (int cc = 0; cc < 3; cc++) {
-                                            if (Grid[rr][cc].GetIntValue() == RandNum) {
-                                                IsOK = false;
+                                            if (grid[rr][cc].getIntValue() == randNum) {
+                                                isOK = false;
                                                 break;
                                             }
                                         }
@@ -125,8 +125,8 @@ public class Generator {
                                 } else if (c < 2) {
                                     for (int rr = 6; rr < 9; rr++) {
                                         for (int cc = 3; cc < 6; cc++) {
-                                            if (Grid[rr][cc].GetIntValue() == RandNum) {
-                                                IsOK = false;
+                                            if (grid[rr][cc].getIntValue() == randNum) {
+                                                isOK = false;
                                                 break;
                                             }
                                         }
@@ -134,8 +134,8 @@ public class Generator {
                                 } else if (c < 3) {
                                     for (int rr = 6; rr < 9; rr++) {
                                         for (int cc = 6; cc < 9; cc++) {
-                                            if (Grid[rr][cc].GetIntValue() == RandNum) {
-                                                IsOK = false;
+                                            if (grid[rr][cc].getIntValue() == randNum) {
+                                                isOK = false;
                                                 break;
                                             }
                                         }
@@ -143,15 +143,15 @@ public class Generator {
                                 }
                             }
                         }
-                        if (IsOK = true) {
-                            Grid[row][col].SetValue(RandNum);
-                            End = true;
+                        if (isOK = true) {
+                            grid[row][col].setValue(randNum);
+                            end = true;
                         }
-                    }while(End == false);
+                    }while(end == false);
                 }
             }
 
         }
-        return Grid;
+        return grid;
     }
 }
