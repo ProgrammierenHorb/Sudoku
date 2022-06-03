@@ -18,11 +18,13 @@ public class Controll {
     SudokuCell[][] solvedGrid = new SudokuCell[9][9];
   
 
-    public void callSudokuSolver(){
+    public void callSudokuSolver(SudokuCell[][] grid){
         solvedGrid = sudokuSolver.solve(grid);
     }
-    public void callSudokuGenerator(){
+    public SudokuCell[][] callSudokuGenerator(){
         solvedGrid = sudokuGenerator.getSolvedGrid();
         grid = sudokuGenerator.getSolvableGrid(solvedGrid);
+
+        return grid;
     }
 }

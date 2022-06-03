@@ -1,6 +1,8 @@
 package ADT;
 
-public class SudokuCell {
+import javax.swing.*;
+
+public class SudokuCell extends JTextField {
 
     private int cellInt;
     private boolean isLocked;
@@ -13,7 +15,6 @@ public class SudokuCell {
 
     public void setValue(String Value){
         cellInt = Integer. parseInt(Value);
-
     }
     public void setValue(int Value){
         cellInt = Value;

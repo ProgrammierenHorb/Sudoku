@@ -2,17 +2,17 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+
 import ADT.SudokuCell;
 import Controll.Controll;
 
 public class GUI {
     private DrawSudokuField draw;
     private JFrame frame;
-    private JTextField [][] grid = new JTextField[9][9];
+    private SudokuCell [][] grid = new SudokuCell[9][9];
     private JPanel gridPanel, buttonPanel, drawPanel;
-    private JButton buttonResume, buttonNewGame, buttonExit, buttonStr8ts;
+    private JButton buttonSolve, buttonNewGame, buttonExit, buttonStr8ts;
     private Controll theControll;
     public GUI(Controll theControll){
         this.theControll = theControll;
@@ -42,8 +42,8 @@ public class GUI {
         buttonExit = new JButton("Exit");
         CreateButton(buttonExit, 10, 400);
 
-        buttonResume = new JButton("Resume");
-        CreateButton(buttonResume, 10, 275);
+        buttonSolve = new JButton("Solve");
+        CreateButton(buttonSolve, 10, 275);
 
         buttonNewGame = new JButton("New Game");
         CreateButton(buttonNewGame, 10, 150);
@@ -56,22 +56,22 @@ public class GUI {
         int j = 0;
         do{
             if(j == 8 && i == 8){
-                grid[i][j] = new JTextField(i + "/" + j);
+                grid[i][j] = new SudokuCell();
                 CreateTextBox(grid[i][j]);
                 break;
             }
             else if(i == 8){
-                grid[i][j] = new JTextField(i + "/" + j);
+                grid[i][j] = new SudokuCell();
                 CreateTextBox(grid[i][j]);
                 j++;
                 i = 0;
             }
             else if(i == 0 && j != 0){
-                grid[i][j] = new JTextField(i + "/" + j);
+                grid[i][j] = new SudokuCell();
                 CreateTextBox(grid[i][j]);
                 i++;
             }else{
-                grid[i][j] = new JTextField(i + "/" + j);
+                grid[i][j] = new SudokuCell();
                 CreateTextBox(grid[i][j]);
                 i++;
             }
@@ -85,13 +85,21 @@ public class GUI {
 
         frame.add(gridPanel);
         frame.add(buttonPanel);
+        //frame.add(canvas);
         //GUI.Var.frame.add(GUI.Var.drawPanel);
         //Var.frame.add(draw);
         frame.setVisible(true);
     }
-    public void CreateTextBox(JTextField textField){
+    public void CreateTextBox(SudokuCell sudokuCell){
         //textField.setBorder(null);
-        gridPanel.add(textField);
+        sudokuCell.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                sudokuCell.setBackground(Color.lightGray);
+
+            }
+        });
+        gridPanel.add(sudokuCell);
     }
 
     public void CreateButton(JButton button, int x, int y){
@@ -101,7 +109,7 @@ public class GUI {
         button.setFont(new Font("Arial", Font.BOLD, 40));
         button.setBorder(null);
         button.setFocusPainted(false);
-        button.addActionListener(new ActionHandler(buttonExit, buttonNewGame, buttonStr8ts, buttonResume));
+        button.addActionListener(new ActionHandler(buttonExit, buttonNewGame, buttonStr8ts, buttonSolve, grid));
         JButton finalButton = button;
         button.addMouseListener(new MouseAdapter() {
             @Override
