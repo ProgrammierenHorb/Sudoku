@@ -56,7 +56,7 @@ public class GUI {
         //Füllt das Sudokufeld Array mit SudokuCell Objekten
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
-                grid[i][j] = new SudokuCell(8, true);
+                grid[i][j] = new SudokuCell();
                 createTextBox(grid[i][j]);
             }
         }

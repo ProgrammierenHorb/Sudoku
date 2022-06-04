@@ -1,30 +1,38 @@
 package ADT;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class SudokuCell extends JTextField {
-
+    Font sudokuCell = new Font("Arial", Font.BOLD, 20);
     private int cellInt;
     private boolean isLocked;
 
     public SudokuCell(){
-        cellInt = 0;
-        isLocked = false;
-        drawValueOnGUI();
+        setValue(0);
+        setLock(false);
+        init();
     }
-    public SudokuCell(int ValInt, boolean Lock){
-        cellInt = ValInt;
-        isLocked = Lock;
-        drawValueOnGUI();
+    public SudokuCell(int valInt, boolean lock){
+        setValue(valInt);
+        setLock(lock);
+        init();
+    }
+
+    private void init(){
+        setHorizontalAlignment(JTextField.CENTER);
+        setFont(sudokuCell);
     }
 
     public void setValue(String Value){
-        cellInt = Integer. parseInt(Value);
+        cellInt = Integer.parseInt(Value);
+        drawValueOnGUI();
     }
     public void setValue(int Value){
         cellInt = Value;
         drawValueOnGUI();
     }
+
     public String getStringValue(){
         return String.valueOf(cellInt);
     }
@@ -38,6 +46,12 @@ public class SudokuCell extends JTextField {
         return isLocked;
     }
     public void drawValueOnGUI(){
-        setText(String.valueOf(cellInt));
+        if(cellInt == 0){
+            setText("");
+        }
+        else{
+            setText(String.valueOf(cellInt));
+        }
+
     }
 }
