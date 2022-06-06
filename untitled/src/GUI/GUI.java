@@ -10,11 +10,19 @@ import Controll.Controll;
 public class GUI {
     private DrawSudokuField draw;
     public JFrame frame;
+    private JPanel sudokuPanel;
+    private JPanel killerPanel;
+    private JPanel str8tsPanel;
     public SudokuCell[][] grid;
     public JPanel gridPanel, buttonPanel, drawPanel;
     private JButton buttonSolve, buttonNewGame, buttonExit, buttonStr8ts;
 
-    private JComboBox modeSelection;
+    private JMenuBar menuBar;
+    private JMenu modeSelection;
+    private JMenuItem sudoku;
+    private JMenuItem killer;
+    private JMenuItem str8ts;
+
     private Controll theControll;
 
     public GUI(Controll theControll){
@@ -29,13 +37,30 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBackground(Color.white);
 
+        sudokuPanel = new JPanel();
+        sudokuPanel.setBounds(0, 75, 900, 600);
+        sudokuPanel.setLayout(null);
+        sudokuPanel.setBackground(Color.white);
+
+        killerPanel = new JPanel();
+        killerPanel.setBounds(0, 75, 900, 600);
+        killerPanel.setLayout(null);
+        killerPanel.setBackground(Color.white);
+
+        str8tsPanel = new JPanel();
+        str8tsPanel.setBounds(0, 75, 900, 600);
+        str8tsPanel.setLayout(null);
+        str8tsPanel.setBackground(Color.white);
+
+        frame.setContentPane(sudokuPanel);
+
         gridPanel = new JPanel();
-        gridPanel.setBounds(25, 25, 500, 500);
+        gridPanel.setBounds(25, 50, 500, 500);
         gridPanel.setBackground(Color.GRAY);
         gridPanel.setLayout(new GridLayout(9, 9));
 
         buttonPanel = new JPanel();
-        buttonPanel.setBounds(575, 25, 300, 500);
+        buttonPanel.setBounds(575, 50, 300, 500);
         buttonPanel.setBackground(Color.GRAY);
         buttonPanel.setLayout(null);
 
@@ -44,10 +69,54 @@ public class GUI {
         drawPanel.setBackground(Color.GRAY);
         drawPanel.setLayout(null);
 
-        modeSelection = new JComboBox(new String[]{"Sudoku", "Killer Sudoku", "Str8ts"});
-        modeSelection.setBounds(10, 25, 275, 25);
-        modeSelection.setBackground(Color.WHITE);
-        buttonPanel.add(modeSelection);
+        menuBar = new JMenuBar();
+        menuBar.setBounds(10, 25, 275, 25);
+        menuBar.setBackground(Color.WHITE);
+        menuBar.setBounds(0,0, 900, 30);
+        menuBar.setBackground(Color.GRAY);
+
+        frame.add(menuBar);
+
+        modeSelection = new JMenu("Modus auswählen");
+        menuBar.add(modeSelection);
+
+        sudoku = new JMenuItem("Sudoku");
+        modeSelection.add(sudoku);
+        killer = new JMenuItem("Killer");
+        modeSelection.add(killer);
+        str8ts = new JMenuItem("Str8ts");
+        modeSelection.add(str8ts);
+
+        sudoku.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("sudoku");
+                frame.setContentPane(sudokuPanel);
+                frame.add(menuBar);
+                frame.validate();
+            }
+        });
+
+        killer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("killer");
+                frame.setContentPane(killerPanel);
+                frame.add(menuBar);
+                frame.validate();
+            }
+        });
+
+        str8ts.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("str8ts");
+                frame.setContentPane(str8tsPanel);
+                frame.add(menuBar);
+                frame.validate();
+            }
+        });
+
 
         buttonExit = new JButton("Exit");
         createButton(buttonExit, 10, 400);
@@ -74,8 +143,10 @@ public class GUI {
         draw.setVisible(true);
         //GUI.Var.drawPanel.add(draw);
 
-        frame.add(gridPanel);
-        frame.add(buttonPanel);
+        sudokuPanel.add(gridPanel);
+        sudokuPanel.add(buttonPanel);
+
+
         //frame.add(canvas);
         //GUI.Var.frame.add(GUI.Var.drawPanel);
         //Var.frame.add(draw);
