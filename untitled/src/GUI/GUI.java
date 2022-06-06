@@ -13,7 +13,10 @@ public class GUI {
     public SudokuCell[][] grid;
     public JPanel gridPanel, buttonPanel, drawPanel;
     private JButton buttonSolve, buttonNewGame, buttonExit, buttonStr8ts;
+
+    private JComboBox modeSelection;
     private Controll theControll;
+
     public GUI(Controll theControll){
         this.theControll = theControll;
 
@@ -41,6 +44,11 @@ public class GUI {
         drawPanel.setBackground(Color.GRAY);
         drawPanel.setLayout(null);
 
+        modeSelection = new JComboBox(new String[]{"Sudoku", "Killer Sudoku", "Str8ts"});
+        modeSelection.setBounds(10, 25, 275, 25);
+        modeSelection.setBackground(Color.WHITE);
+        buttonPanel.add(modeSelection);
+
         buttonExit = new JButton("Exit");
         createButton(buttonExit, 10, 400);
 
@@ -50,8 +58,8 @@ public class GUI {
         buttonNewGame = new JButton("New Game");
         createButton(buttonNewGame, 10, 150);
 
-        buttonStr8ts = new JButton("Stra8ts");
-        createButton(buttonStr8ts, 10, 25);
+        //buttonStr8ts = new JButton("Stra8ts");
+        //createButton(buttonStr8ts, 10, 25);
 
         //Füllt das Sudokufeld Array mit SudokuCell Objekten
         for(int i = 0; i < 9; i++){

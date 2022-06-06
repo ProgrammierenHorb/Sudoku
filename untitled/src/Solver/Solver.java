@@ -44,7 +44,6 @@ public class Solver {
                 if(grid[j][i].getIntValue() == n) return false;
             }
         }
-
         return true;
     }
 
