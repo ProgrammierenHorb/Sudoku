@@ -1,21 +1,26 @@
 package GUI;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 import ADT.SudokuCell;
 import Controll.Controll;
 
 public class GUI {
     private DrawSudokuField draw;
-    public JFrame frame;
+    private JFrame frame;
     private JPanel sudokuPanel;
     private JPanel killerPanel;
     private JPanel str8tsPanel;
-    public SudokuCell[][] grid;
-    public JPanel gridPanel, buttonPanel, drawPanel;
-    private JButton buttonSolve, buttonNewGame, buttonExit, buttonStr8ts;
+    private SudokuCell[][] grid;
+    private JPanel gridPanel, buttonPanel, drawPanel;
+    private JButton buttonClue, buttonNewGame, buttonExit, buttonCheck;
 
     private JMenuBar menuBar;
     private JMenu modeSelection;
@@ -31,7 +36,7 @@ public class GUI {
         grid = new SudokuCell[9][9];
         frame = new JFrame("Sudoku");
         frame.setResizable(false);
-        frame.setSize(900, 600);
+        frame.setSize(900, 620);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,10 +63,11 @@ public class GUI {
         gridPanel.setBounds(25, 50, 500, 500);
         gridPanel.setBackground(Color.GRAY);
         gridPanel.setLayout(new GridLayout(9, 9));
+        gridPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
         buttonPanel = new JPanel();
         buttonPanel.setBounds(575, 50, 300, 500);
-        buttonPanel.setBackground(Color.GRAY);
+        //buttonPanel.setBackground(Color.GRAY);
         buttonPanel.setLayout(null);
 
         drawPanel = new JPanel();
@@ -121,20 +127,57 @@ public class GUI {
         buttonExit = new JButton("Exit");
         createButton(buttonExit, 10, 400);
 
-        buttonSolve = new JButton("Solve");
-        createButton(buttonSolve, 10, 275);
+        buttonClue = new JButton("Get Clue");
+        createButton(buttonClue, 10, 275);
 
         buttonNewGame = new JButton("New Game");
-        createButton(buttonNewGame, 10, 150);
+        createButton(buttonNewGame, 10, 25);
 
-        //buttonStr8ts = new JButton("Stra8ts");
-        //createButton(buttonStr8ts, 10, 25);
+        buttonCheck = new JButton("Check");
+        createButton(buttonCheck, 10, 150);
 
         //Füllt das Sudokufeld Array mit SudokuCell Objekten
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
-                grid[i][j] = new SudokuCell();
-                createTextBox(grid[i][j]);
+                grid[i][j] = new SudokuCell(new int[] {i, j});
+                gridPanel.add(grid[i][j]);
+            }
+        }
+
+        Color colormarkselected = new Color(215, 255, 255);
+
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                int finalJ = j;
+                int finalI = i;
+                grid[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+
+                        for(int i = 0; i < 9; i++){
+                            for(int j = 0; j < 9; j++){
+                                grid[j][i].markDefault();
+                            }
+                        }
+
+
+                        for(int p = 0; p < 9; p++){
+                            grid[p][finalJ].markwithColor(colormarkselected);
+                            grid[finalI][p].markwithColor(colormarkselected);
+                        }
+
+                        int box_x = (int) (finalJ / 3) * 3;
+                        int box_y = (int) (finalI / 3) * 3;
+
+                        for(int i = box_x; i < box_x + 3; i++){
+                            for(int j = box_y; j < box_y + 3; j++){
+                                grid[j][i].markwithColor(colormarkselected);
+                            }
+                        }
+                        grid[finalI][finalJ].markwithColor(new Color(140, 236, 239));
+                    }
+                });
+
             }
         }
 
@@ -151,36 +194,29 @@ public class GUI {
         //GUI.Var.frame.add(GUI.Var.drawPanel);
         //Var.frame.add(draw);
         frame.setVisible(true);
-    }
-    public void createTextBox(SudokuCell sudokuCell){
-        //textField.setBorder(null);
-        sudokuCell.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                sudokuCell.setBackground(Color.lightGray);
 
-            }
-        });
-        gridPanel.add(sudokuCell);
+        theControll.callSudokuGenerator(grid);
     }
+
 
     public void createButton(JButton button, int x, int y){
         button.setBounds(x, y, 275, 75);
-        button.setBackground(Color.GRAY);
+        button.setBackground(Color.WHITE);
         button.setForeground(Color.BLACK);
         button.setFont(new Font("Arial", Font.BOLD, 40));
         button.setBorder(null);
         button.setFocusPainted(false);
-        button.addActionListener(new ActionHandler(buttonExit, buttonNewGame, buttonStr8ts, buttonSolve, grid, theControll));
+        button.addActionListener(new ActionHandler(buttonExit, buttonNewGame, buttonClue, buttonCheck, grid, theControll));
+        button.setBorder(BorderFactory.createLineBorder(Color.black, 1));
         JButton finalButton = button;
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent evt) {
-                finalButton.setBackground(Color.CYAN);
+                finalButton.setBorder(BorderFactory.createLineBorder(Color.orange, 3));
                 finalButton.setForeground(Color.BLACK);
             }
             public void mouseExited(MouseEvent evt) {
-                finalButton.setBackground(Color.GRAY);
+                finalButton.setBorder(BorderFactory.createLineBorder(Color.black, 1));
                 finalButton.setForeground(Color.BLACK);
             }
         });
