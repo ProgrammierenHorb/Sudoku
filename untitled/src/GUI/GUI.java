@@ -67,7 +67,6 @@ public class GUI {
 
         buttonPanel = new JPanel();
         buttonPanel.setBounds(575, 50, 300, 500);
-        //buttonPanel.setBackground(Color.GRAY);
         buttonPanel.setLayout(null);
 
         drawPanel = new JPanel();
@@ -144,6 +143,7 @@ public class GUI {
             }
         }
 
+        //Markiert relvevante Felder bei klick auf ein Feld
         Color colormarkselected = new Color(215, 255, 255);
 
         for(int i = 0; i < 9; i++){
@@ -156,25 +156,21 @@ public class GUI {
 
                         for(int i = 0; i < 9; i++){
                             for(int j = 0; j < 9; j++){
-                                grid[j][i].markDefault();
+                                if(i == finalI){ //Markiert Reihe
+                                    grid[i][j].markwithColor(colormarkselected);
+                                }
+                                else if(j == finalJ){ //Markiert Spalte
+                                    grid[i][j].markwithColor(colormarkselected);
+                                }
+                                else if((i / 3) == (finalI/3) && (j / 3) == (finalJ/3)){ //Markiert Box
+                                    grid[i][j].markwithColor(colormarkselected);
+                                }
+                                else{
+                                    grid[i][j].markDefault();
+                                }
                             }
                         }
-
-
-                        for(int p = 0; p < 9; p++){
-                            grid[p][finalJ].markwithColor(colormarkselected);
-                            grid[finalI][p].markwithColor(colormarkselected);
-                        }
-
-                        int box_x = (int) (finalJ / 3) * 3;
-                        int box_y = (int) (finalI / 3) * 3;
-
-                        for(int i = box_x; i < box_x + 3; i++){
-                            for(int j = box_y; j < box_y + 3; j++){
-                                grid[j][i].markwithColor(colormarkselected);
-                            }
-                        }
-                        grid[finalI][finalJ].markwithColor(new Color(140, 236, 239));
+                        grid[finalI][finalJ].markwithColor(new Color(140, 236, 239)); //Markiert angeklicktes Feld in einer etwas anderen Farbe
                     }
                 });
 
@@ -184,15 +180,10 @@ public class GUI {
         draw = new DrawSudokuField();
         draw.setBounds(0, 0, 500, 500);
         draw.setVisible(true);
-        //GUI.Var.drawPanel.add(draw);
 
         sudokuPanel.add(gridPanel);
         sudokuPanel.add(buttonPanel);
 
-
-        //frame.add(canvas);
-        //GUI.Var.frame.add(GUI.Var.drawPanel);
-        //Var.frame.add(draw);
         frame.setVisible(true);
 
         theControll.callSudokuGenerator(grid);
@@ -207,7 +198,7 @@ public class GUI {
         button.setBorder(null);
         button.setFocusPainted(false);
         button.addActionListener(new ActionHandler(buttonExit, buttonNewGame, buttonClue, buttonCheck, grid, theControll));
-        button.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        button.setBorder(BorderFactory.createLineBorder(Color.black, 2));
         JButton finalButton = button;
         button.addMouseListener(new MouseAdapter() {
             @Override
@@ -216,7 +207,7 @@ public class GUI {
                 finalButton.setForeground(Color.BLACK);
             }
             public void mouseExited(MouseEvent evt) {
-                finalButton.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                finalButton.setBorder(BorderFactory.createLineBorder(Color.black, 2));
                 finalButton.setForeground(Color.BLACK);
             }
         });

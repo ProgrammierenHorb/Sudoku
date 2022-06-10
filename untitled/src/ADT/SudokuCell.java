@@ -1,10 +1,14 @@
 package ADT;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 public class SudokuCell extends JTextField {
     Font sudokuCell = new Font("Arial", Font.BOLD, 20);
@@ -63,6 +67,18 @@ public class SudokuCell extends JTextField {
                             e.consume(); //verhindert dass Windows einen Fehlersound bei Eingaben wie BackSpace abspieltbreak;
                             break;
                     }
+                }
+                else{
+                    try{
+                        String soundName = "Sudoku/untitled/sounds/wrong_input.wav";
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+                        Clip clip = AudioSystem.getClip();
+                        clip.open(audioInputStream);
+                        clip.start();
+                    } catch(Exception ex){
+                        System.out.println(ex.getMessage());
+                    }
+
                 }
             }
 
