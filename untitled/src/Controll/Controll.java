@@ -1,12 +1,12 @@
 package Controll;
-import ADT.SudokuCell;
+import Killer.KillerCell;
+import Killer.KillerGenerator;
+import Sudoku.SudokuCell;
 import GUI.GUI;
-import Solver.Solver;
-import Generator.Generator;
+import Sudoku.SudokuGenerator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -24,8 +24,8 @@ public class Controll {
 
     }
 
-    Solver sudokuSolver = new Solver();
-    Generator sudokuGenerator = new Generator();
+    SudokuGenerator sudokuGenerator = new SudokuGenerator();
+    KillerGenerator killerGenerator = new KillerGenerator();
 
     public void callgetClue(SudokuCell[][] grid){
         boolean clueFound = false;
@@ -59,7 +59,16 @@ public class Controll {
                 grid[i][j].drawValueOnGUI();
             }
         }
+    }
 
+    public void callKillerGenerator(KillerCell[][] grid){
+        killerGenerator.generateFilledGrid(grid);
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                grid[i][j].markwithColor(Color.green);
+                grid[i][j].drawValueOnGUI();
+            }
+        }
     }
 
     public void callSudokuInputCheck(SudokuCell[][] inputgrid){

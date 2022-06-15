@@ -1,6 +1,5 @@
-package GUI;
+package Sudoku;
 
-import ADT.SudokuCell;
 import Controll.Controll;
 
 import javax.swing.*;

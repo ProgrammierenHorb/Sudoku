@@ -1,14 +1,18 @@
-package GUI;
+package Killer;
 
-import ADT.SudokuCell;
+import Sudoku.SudokuCell;
 import Controll.Controll;
+import Sudoku.ActionHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class SudokuPanel extends JPanel{
+public class KillerPanel extends JPanel{
+
     Controll theControll;
     JPanel gridPanel;
     JPanel buttonPanel;
@@ -16,11 +20,12 @@ public class SudokuPanel extends JPanel{
     JButton buttonClue;
     JButton buttonNewGame;
     JButton buttonCheck;
-    SudokuCell[][] grid;
+    KillerCell[][] grid;
 
-    public SudokuPanel(Controll theControll){
+    public KillerPanel(Controll theControll){
 
         this.theControll = theControll;
+
         setBounds(0, 75, 900, 600);
         setLayout(null);
         setBackground(Color.white);
@@ -39,16 +44,34 @@ public class SudokuPanel extends JPanel{
         markCellsWhenSelected();
 
         buttonExit = new JButton("Exit");
+        buttonExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int reply = JOptionPane.showConfirmDialog(null, "Wirklich beenden?", "Programm beenden?", JOptionPane.YES_NO_OPTION);
+                if(reply == JOptionPane.YES_OPTION){
+                    System.exit(0);
+                }
+            }
+        });
         createButton(buttonExit, 10, 400);
 
         buttonClue = new JButton("Get Clue");
         createButton(buttonClue, 10, 275);
 
         buttonNewGame = new JButton("New Game");
+        buttonNewGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                theControll.callKillerGenerator(grid);
+            }
+        });
         createButton(buttonNewGame, 10, 25);
+
 
         buttonCheck = new JButton("Check");
         createButton(buttonCheck, 10, 150);
+
+        theControll.callKillerGenerator(grid);
 
         add(gridPanel);
         add(buttonPanel);
@@ -58,18 +81,19 @@ public class SudokuPanel extends JPanel{
 
     private void initSudokuField(){
 
-        grid = new SudokuCell[9][9];
+        grid = new KillerCell[9][9];
 
         //Füllt das Sudokufeld Array mit SudokuCell Objekten
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
-                grid[i][j] = new SudokuCell(new int[] {i, j});
+                grid[i][j] = new KillerCell(new int[] {i, j});
                 gridPanel.add(grid[i][j]);
             }
         }
     }
 
     private void markCellsWhenSelected(){
+
         Color colormarkselected = new Color(215, 255, 255);
 
         for(int i = 0; i < 9; i++){
@@ -111,7 +135,6 @@ public class SudokuPanel extends JPanel{
         button.setFont(new Font("Arial", Font.BOLD, 40));
         button.setBorder(null);
         button.setFocusPainted(false);
-        button.addActionListener(new ActionHandler(buttonExit, buttonNewGame, buttonClue, buttonCheck, grid, theControll));
         button.setBorder(BorderFactory.createLineBorder(Color.black, 2));
         JButton finalButton = button;
         button.addMouseListener(new MouseAdapter() {

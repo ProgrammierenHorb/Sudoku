@@ -1,16 +1,13 @@
 package GUI;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 
-import ADT.SudokuCell;
 import Controll.Controll;
+import Killer.KillerPanel;
+import Str8ts.Str8tsPanel;
+import Sudoku.SudokuPanel;
 
 public class GUI {
 
@@ -40,7 +37,6 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBackground(Color.white);
 
-
         JPanel sudokuPanel = new SudokuPanel(theControll);
         frame.setContentPane(sudokuPanel);
 
@@ -51,7 +47,6 @@ public class GUI {
         menuBar.setBounds(10, 25, 275, 25);
         menuBar.setBackground(Color.WHITE);
         menuBar.setBounds(0,0, 900, 30);
-        menuBar.setBackground(Color.GRAY);
 
         frame.add(menuBar);
 
@@ -96,6 +91,7 @@ public class GUI {
         });
 
         frame.setVisible(true);
+
 
     }
 

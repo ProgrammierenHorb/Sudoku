@@ -1,15 +1,15 @@
-package GUI;
+package Sudoku;
 
-import ADT.SudokuCell;
 import Controll.Controll;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Str8tsPanel extends JPanel{
-
+public class SudokuPanel extends JPanel{
     Controll theControll;
     JPanel gridPanel;
     JPanel buttonPanel;
@@ -19,7 +19,7 @@ public class Str8tsPanel extends JPanel{
     JButton buttonCheck;
     SudokuCell[][] grid;
 
-    public Str8tsPanel(Controll theControll){
+    public SudokuPanel(Controll theControll){
 
         this.theControll = theControll;
         setBounds(0, 75, 900, 600);
@@ -40,19 +40,49 @@ public class Str8tsPanel extends JPanel{
         markCellsWhenSelected();
 
         buttonExit = new JButton("Exit");
+        buttonExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int reply = JOptionPane.showConfirmDialog(null, "Wirklich beenden?", "Programm beenden?", JOptionPane.YES_NO_OPTION);
+                if(reply == JOptionPane.YES_OPTION){
+                    System.exit(0);
+                }
+            }
+        });
         createButton(buttonExit, 10, 400);
 
         buttonClue = new JButton("Get Clue");
+        buttonClue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                theControll.callgetClue(grid);
+            }
+        });
         createButton(buttonClue, 10, 275);
 
         buttonNewGame = new JButton("New Game");
+        buttonNewGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                theControll.callSudokuGenerator(grid);
+            }
+        });
         createButton(buttonNewGame, 10, 25);
 
         buttonCheck = new JButton("Check");
+        buttonCheck.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                theControll.callSudokuInputCheck(grid);
+            }
+        });
         createButton(buttonCheck, 10, 150);
+
+        theControll.callSudokuGenerator(grid);
 
         add(gridPanel);
         add(buttonPanel);
+
 
 
     }
@@ -112,7 +142,6 @@ public class Str8tsPanel extends JPanel{
         button.setFont(new Font("Arial", Font.BOLD, 40));
         button.setBorder(null);
         button.setFocusPainted(false);
-        button.addActionListener(new ActionHandler(buttonExit, buttonNewGame, buttonClue, buttonCheck, grid, theControll));
         button.setBorder(BorderFactory.createLineBorder(Color.black, 2));
         JButton finalButton = button;
         button.addMouseListener(new MouseAdapter() {
@@ -127,3 +156,4 @@ public class Str8tsPanel extends JPanel{
         buttonPanel.add(button);
     }
 }
+

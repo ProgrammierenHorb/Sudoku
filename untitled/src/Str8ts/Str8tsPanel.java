@@ -1,15 +1,15 @@
-package GUI;
+package Str8ts;
 
-import ADT.KillerCell;
-import ADT.SudokuCell;
+import Sudoku.SudokuCell;
 import Controll.Controll;
+import Sudoku.ActionHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class KillerPanel extends JPanel{
+public class Str8tsPanel extends JPanel{
 
     Controll theControll;
     JPanel gridPanel;
@@ -20,10 +20,9 @@ public class KillerPanel extends JPanel{
     JButton buttonCheck;
     SudokuCell[][] grid;
 
-    public KillerPanel(Controll theControll){
+    public Str8tsPanel(Controll theControll){
 
         this.theControll = theControll;
-
         setBounds(0, 75, 900, 600);
         setLayout(null);
         setBackground(Color.white);
@@ -61,7 +60,7 @@ public class KillerPanel extends JPanel{
 
     private void initSudokuField(){
 
-        grid = new KillerCell[9][9];
+        grid = new SudokuCell[9][9];
 
         //Füllt das Sudokufeld Array mit SudokuCell Objekten
         for(int i = 0; i < 9; i++){
@@ -129,4 +128,3 @@ public class KillerPanel extends JPanel{
         buttonPanel.add(button);
     }
 }
-

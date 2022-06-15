@@ -1,4 +1,4 @@
-package ADT;
+package Sudoku;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -78,7 +78,6 @@ public class SudokuCell extends JTextField {
                     } catch(Exception ex){
                         System.out.println(ex.getMessage());
                     }
-
                 }
             }
 
@@ -139,7 +138,6 @@ public class SudokuCell extends JTextField {
         else{
             setForeground(Color.BLACK);
         }
-
     }
     public boolean isLocked(){
         return isLocked;
