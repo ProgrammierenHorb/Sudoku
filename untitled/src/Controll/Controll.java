@@ -65,7 +65,7 @@ public class Controll {
         killerGenerator.generateFilledGrid(grid);
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
-                grid[i][j].markwithColor(Color.green);
+                //grid[i][j].markDefault();
                 grid[i][j].drawValueOnGUI();
             }
         }
