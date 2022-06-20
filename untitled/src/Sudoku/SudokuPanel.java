@@ -49,6 +49,7 @@ public class SudokuPanel extends JPanel{
                 }
             }
         });
+
         createButton(buttonExit, 10, 400);
 
         buttonClue = new JButton("Get Clue");
@@ -83,8 +84,6 @@ public class SudokuPanel extends JPanel{
         add(gridPanel);
         add(buttonPanel);
 
-
-
     }
 
     private void initSudokuField(){
@@ -114,20 +113,20 @@ public class SudokuPanel extends JPanel{
                         for(int i = 0; i < 9; i++){
                             for(int j = 0; j < 9; j++){
                                 if(i == finalI){ //Markiert Reihe
-                                    grid[i][j].markwithColor(colormarkselected);
+                                    grid[i][j].markWithColor(colormarkselected);
                                 }
                                 else if(j == finalJ){ //Markiert Spalte
-                                    grid[i][j].markwithColor(colormarkselected);
+                                    grid[i][j].markWithColor(colormarkselected);
                                 }
                                 else if((i / 3) == (finalI/3) && (j / 3) == (finalJ/3)){ //Markiert Box
-                                    grid[i][j].markwithColor(colormarkselected);
+                                    grid[i][j].markWithColor(colormarkselected);
                                 }
                                 else{
                                     grid[i][j].markDefault();
                                 }
                             }
                         }
-                        grid[finalI][finalJ].markwithColor(new Color(140, 236, 239)); //Markiert angeklicktes Feld in einer etwas anderen Farbe
+                        grid[finalI][finalJ].markWithColor(new Color(140, 236, 239)); //Markiert angeklicktes Feld in einer etwas anderen Farbe
                     }
                 });
 

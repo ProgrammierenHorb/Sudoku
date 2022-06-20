@@ -29,12 +29,12 @@ public class Controll {
 
     public void callgetClue(SudokuCell[][] grid){
         boolean clueFound = false;
-        SudokuCell[][] checkGrid = sudokuGenerator.getCurrentFilledGrid();
+        int[][] checkGrid = sudokuGenerator.getCurrentFilledGrid();
         List<int[]> notFilledCells = new ArrayList();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 grid[i][j].updateValue();
-                if(grid[i][j].getIntValue() == 0){
+                if(grid[i][j].getCellValue() == 0){
                     notFilledCells.add(new int[] {i, j});
                     clueFound = true;
                 }
@@ -47,8 +47,8 @@ public class Controll {
             int random = (int) (Math.random() * notFilledCells.size());
             int y = notFilledCells.get(random)[0];
             int x = notFilledCells.get(random)[1];
-            grid[y][x].setValueandDraw(checkGrid[y][x].getIntValue());
-            grid[y][x].markwithColor(new Color(255, 246, 179));
+            grid[y][x].setValueandDraw(checkGrid[y][x]);
+            grid[y][x].markWithColor(new Color(255, 246, 179));
         }
     }
     public void callSudokuGenerator(SudokuCell[][] grid){
@@ -62,18 +62,18 @@ public class Controll {
     }
 
     public void callKillerGenerator(KillerCell[][] grid){
-        killerGenerator.generateFilledGrid(grid);
+        /*killerGenerator.generateFilledGrid(grid);
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 //grid[i][j].markDefault();
                 grid[i][j].drawValueOnGUI();
             }
-        }
+        }*/
     }
 
     public void callSudokuInputCheck(SudokuCell[][] inputgrid){
 
-        SudokuCell[][] checkGrid = sudokuGenerator.getCurrentFilledGrid();
+        int[][] checkGrid = sudokuGenerator.getCurrentFilledGrid();
 
         boolean won = true;
 
@@ -85,16 +85,16 @@ public class Controll {
             for(int j = 0; j < 9; j++){
                 inputgrid[i][j].updateValue();
                 if(!inputgrid[i][j].isLocked()){
-                    if(inputgrid[i][j].getIntValue() == 0){
+                    if(inputgrid[i][j].getCellValue() == 0){
                         inputgrid[i][j].markDefault();
                         won = false;
                         notfilled++;
-                    } else if (inputgrid[i][j].getIntValue() != checkGrid[i][j].getIntValue()) {
-                        inputgrid[i][j].markwithColor(new Color(255, 168, 168));
+                    } else if (inputgrid[i][j].getCellValue() != checkGrid[i][j]) {
+                        inputgrid[i][j].markWithColor(new Color(255, 168, 168));
                         won = false;
                         wrong++;
                     } else {
-                        inputgrid[i][j].markwithColor(new Color(179, 255, 202));
+                        inputgrid[i][j].markWithColor(new Color(179, 255, 202));
                         right++;
                     }
                 }

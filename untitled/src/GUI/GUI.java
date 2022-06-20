@@ -6,7 +6,6 @@ import java.awt.event.*;
 
 import Controll.Controll;
 import Killer.KillerPanel;
-import Str8ts.Str8tsPanel;
 import Sudoku.SudokuPanel;
 
 public class GUI {
@@ -41,7 +40,7 @@ public class GUI {
         frame.setContentPane(sudokuPanel);
 
         JPanel killerPanel = new KillerPanel(theControll);
-        JPanel str8tsPanel = new Str8tsPanel(theControll);
+        //JPanel str8tsPanel = new Str8tsPanel(theControll);
 
         menuBar = new JMenuBar();
         menuBar.setBounds(10, 25, 275, 25);

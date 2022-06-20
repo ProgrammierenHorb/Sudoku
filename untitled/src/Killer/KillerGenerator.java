@@ -8,8 +8,8 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
 
-public class KillerGenerator extends SudokuGenerator {
-
+public class KillerGenerator{
+/*
     private KillerCell[][] currentFilledGrid;
 
     private Map<Integer, Integer> sums;
@@ -245,5 +245,5 @@ public class KillerGenerator extends SudokuGenerator {
             }
 
         }
-    }
+    }*/
 }
