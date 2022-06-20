@@ -67,11 +67,10 @@ public class KillerPanel extends JPanel{
         });
         createButton(buttonNewGame, 10, 25);
 
-
         buttonCheck = new JButton("Check");
         createButton(buttonCheck, 10, 150);
 
-        theControll.callKillerGenerator(grid);
+        //theControll.callKillerGenerator(grid);
 
         add(gridPanel);
         add(buttonPanel);
@@ -86,7 +85,7 @@ public class KillerPanel extends JPanel{
         //Füllt das Sudokufeld Array mit SudokuCell Objekten
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
-                grid[i][j] = new KillerCell(new int[] {i, j});
+                grid[i][j] = new KillerCell(new int[] {i, j}); //(y, x) Coordinate
                 gridPanel.add(grid[i][j]);
             }
         }
@@ -103,24 +102,24 @@ public class KillerPanel extends JPanel{
                 grid[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-
+                        System.out.println(grid[finalI][finalJ].getSumKey());
                         for(int i = 0; i < 9; i++){
                             for(int j = 0; j < 9; j++){
                                 if(i == finalI){ //Markiert Reihe
-                                    grid[i][j].markwithColor(colormarkselected);
+                                    //grid[i][j].markwithColor(colormarkselected);
                                 }
                                 else if(j == finalJ){ //Markiert Spalte
-                                    grid[i][j].markwithColor(colormarkselected);
+                                    //grid[i][j].markwithColor(colormarkselected);
                                 }
                                 else if((i / 3) == (finalI/3) && (j / 3) == (finalJ/3)){ //Markiert Box
-                                    grid[i][j].markwithColor(colormarkselected);
+                                    //grid[i][j].markwithColor(colormarkselected);
                                 }
                                 else{
-                                    grid[i][j].markDefault();
+                                    //grid[i][j].markDefault();
                                 }
                             }
                         }
-                        grid[finalI][finalJ].markwithColor(new Color(140, 236, 239)); //Markiert angeklicktes Feld in einer etwas anderen Farbe
+                        //grid[finalI][finalJ].markwithColor(new Color(140, 236, 239)); //Markiert angeklicktes Feld in einer etwas anderen Farbe
                     }
                 });
 

@@ -68,17 +68,6 @@ public class SudokuCell extends JTextField {
                             break;
                     }
                 }
-                else{
-                    try{
-                        String soundName = "Sudoku/untitled/sounds/wrong_input.wav";
-                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-                        Clip clip = AudioSystem.getClip();
-                        clip.open(audioInputStream);
-                        clip.start();
-                    } catch(Exception ex){
-                        System.out.println(ex.getMessage());
-                    }
-                }
             }
 
             @Override

@@ -26,4 +26,5 @@ public class KillerCell extends SudokuCell {
     public void setSumKey(int sumKey){
         this.sumKey = sumKey;
     }
+
 }
