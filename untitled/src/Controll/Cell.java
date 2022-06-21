@@ -38,16 +38,11 @@ public abstract class Cell extends JPanel {
         textField = new JLabel();
         setLayout(valueLayout);
         markDefault();
-        //add(textField, Grid.CENTER);
         add(textField);
         cellFont = new Font("Arial", Font.BOLD, 20);
-        notesFont = new Font("Arial", Font.ITALIC, 12);
-        //textField.setHorizontalAlignment(JLabel.CENTER);
-        //textField.setVerticalAlignment(JLabel.TOP);
-        //textField.setBackground(Color.green);
+        notesFont = new Font("Arial", Font.BOLD, 12);
         textField.setFont(cellFont);
         drawBorder();
-        //textField.setEditable(false); //Alle Felder sind nicht Editierbar, so dass der Benutzer keine Eingaben außer über den KeyListener machen kann
 
     }
 

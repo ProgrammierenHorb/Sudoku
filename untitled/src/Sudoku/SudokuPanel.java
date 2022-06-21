@@ -293,6 +293,18 @@ public class SudokuPanel extends JPanel {
                 finalButton.setBorder(BorderFactory.createLineBorder(Color.black, 2));
             }
         });
+
+        button.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                finalButton.setBorder(BorderFactory.createLineBorder(Color.orange, 3));
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                finalButton.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+            }
+        });
         buttonPanel.add(button);
     }
 }
