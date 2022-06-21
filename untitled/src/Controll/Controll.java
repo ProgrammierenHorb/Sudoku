@@ -57,6 +57,9 @@ public class Controll {
             for(int j = 0; j < 9; j++){
                 grid[i][j].markDefault();
                 grid[i][j].drawValueOnGUI();
+                for(int k = 0; k < 9; k++){
+                    grid[i][j].notes[k].setText("");
+                }
             }
         }
     }

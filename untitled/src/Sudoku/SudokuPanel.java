@@ -40,7 +40,6 @@ public class SudokuPanel extends JPanel {
         buttonPanel.setLayout(null);
 
         initSudokuField();
-        markCellsWhenSelected();
         initWriteInCells(grid);
 
 
@@ -62,7 +61,6 @@ public class SudokuPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 theControll.callgetClue(grid);
-                getTopLevelAncestor().requestFocus();
             }
         });
         createButton(buttonClue, 10, 275);
@@ -72,7 +70,7 @@ public class SudokuPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 theControll.callSudokuGenerator(grid);
-                getTopLevelAncestor().requestFocus();
+
             }
         });
         createButton(buttonNewGame, 10, 25);
@@ -82,7 +80,6 @@ public class SudokuPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 theControll.callSudokuInputCheck(grid);
-                getTopLevelAncestor().requestFocus();
             }
         });
         createButton(buttonCheck, 10, 150);
@@ -152,25 +149,71 @@ public class SudokuPanel extends JPanel {
         im.put(KeyStroke.getKeyStroke("BACK_SPACE"), "delete");
         am.put("delete", new DeleteValueAction(this));
 
+        im.put(KeyStroke.getKeyStroke("UP"), "moveUP");
+        am.put("moveUP", new ArrowUPAction(this));
+
+        im.put(KeyStroke.getKeyStroke("DOWN"), "moveDOWN");
+        am.put("moveDOWN", new ArrowDOWNAction(this));
+
+        im.put(KeyStroke.getKeyStroke("LEFT"), "moveLEFT");
+        am.put("moveLEFT", new ArrowLEFTAction(this));
+
+        im.put(KeyStroke.getKeyStroke("RIGHT"), "moveRIGHT");
+        am.put("moveRIGHT", new ArrowRIGHTAction(this));
+
+
     }
 
-    public void triggerWriteValue(int value){
-        currentSelectedCell.setValueLayout();
-        currentSelectedCell.setValueandDraw(value);
-    }
-
-    public void triggerWriteNote(int value){
-        currentSelectedCell.setNotesLayout();
-        if(currentSelectedCell.notes[value-1].getText() == ""){
-            currentSelectedCell.notes[value-1].setText(String.valueOf(value));
+    public void triggerWriteValue(int value) {
+        if (currentSelectedCell != null && !currentSelectedCell.isLocked()) {
+            currentSelectedCell.setValueLayout();
+            currentSelectedCell.setValueandDraw(value);
         }
-        else{
-            currentSelectedCell.notes[value-1].setText("");
-        }
     }
 
-    public void removeNotes(){
-        for(int i = 0; i<9; i++){
+    public void triggerWriteNote(int value) {
+        if (currentSelectedCell != null && !currentSelectedCell.isLocked()) {
+            currentSelectedCell.setNotesLayout();
+            if (currentSelectedCell.notes[value - 1].getText() == "") {
+                currentSelectedCell.notes[value - 1].setText(String.valueOf(value));
+            } else {
+                currentSelectedCell.notes[value - 1].setText("");
+            }
+        }
+
+    }
+
+    public void changeCurrentSelectedCell(String direction) {
+        if (currentSelectedCell != null) {
+
+            if (direction == "UP") {
+                if (currentSelectedCell.getPosition()[0] > 0) {
+                    currentSelectedCell = grid[currentSelectedCell.getPosition()[0] - 1][currentSelectedCell.getPosition()[1]];
+                    markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
+                }
+            } else if (direction == "DOWN") {
+                if (currentSelectedCell.getPosition()[0] < 8) {
+                    currentSelectedCell = grid[currentSelectedCell.getPosition()[0] + 1][currentSelectedCell.getPosition()[1]];
+                    markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
+                }
+            } else if (direction == "RIGHT") {
+                if (currentSelectedCell.getPosition()[1] < 8) {
+                    currentSelectedCell = grid[currentSelectedCell.getPosition()[0]][currentSelectedCell.getPosition()[1] + 1];
+                    markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
+                }
+            } else if (direction == "LEFT") {
+                if (currentSelectedCell.getPosition()[1] > 0) {
+                    currentSelectedCell = grid[currentSelectedCell.getPosition()[0]][currentSelectedCell.getPosition()[1] - 1];
+                    markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
+                }
+            }
+        }
+
+
+    }
+
+    public void removeNotes() {
+        for (int i = 0; i < 9; i++) {
             currentSelectedCell.notes[i].setText("");
         }
 
@@ -189,37 +232,28 @@ public class SudokuPanel extends JPanel {
         }
     }
 
-    private void markCellsWhenSelected() {
+    private void markCellsSelected(int[] position) {
         Color colormarkselected = new Color(215, 255, 255);
+
+        int posY = position[0];
+        int posX = position[1];
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                int finalJ = j;
-                int finalI = i;
-                grid[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-
-                        for (int i = 0; i < 9; i++) {
-                            for (int j = 0; j < 9; j++) {
-                                if (i == finalI) { //Markiert Reihe
-                                    grid[i][j].markWithColor(colormarkselected);
-                                } else if (j == finalJ) { //Markiert Spalte
-                                    grid[i][j].markWithColor(colormarkselected);
-                                } else if ((i / 3) == (finalI / 3) && (j / 3) == (finalJ / 3)) { //Markiert Box
-                                    grid[i][j].markWithColor(colormarkselected);
-                                } else {
-                                    grid[i][j].markDefault();
-                                }
-                            }
-                        }
-                        grid[finalI][finalJ].markWithColor(new Color(140, 236, 239)); //Markiert angeklicktes Feld in einer etwas anderen Farbe
-                    }
-                });
-
+                if (i == posY) { //Markiert Reihe
+                    grid[i][j].markWithColor(colormarkselected);
+                } else if (j == posX) { //Markiert Spalte
+                    grid[i][j].markWithColor(colormarkselected);
+                } else if ((i / 3) == (posY / 3) && (j / 3) == (posX / 3)) { //Markiert Box
+                    grid[i][j].markWithColor(colormarkselected);
+                } else {
+                    grid[i][j].markDefault();
+                }
             }
         }
+        grid[posY][posX].markWithColor(new Color(140, 236, 239)); //Markiert angeklicktes Feld in einer etwas anderen Farbe
     }
+
 
     private void initWriteInCells(SudokuCell[][] grid) {
         for (int i = 0; i < 9; i++) {
@@ -230,6 +264,7 @@ public class SudokuPanel extends JPanel {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         currentSelectedCell = grid[finalI][finalJ];
+                        markCellsSelected(new int[]{finalI, finalJ});
                         System.out.print(finalI);
                         System.out.println(finalJ);
                     }
