@@ -17,6 +17,7 @@ public abstract class Cell extends JPanel {
     protected int[] position;
     protected boolean locked;
     protected Font cellFont;
+    protected Font notesFont;
 
     GridLayout notesLayout = new GridLayout(3, 3);
     GridBagLayout valueLayout = new GridBagLayout();
@@ -40,6 +41,7 @@ public abstract class Cell extends JPanel {
         //add(textField, Grid.CENTER);
         add(textField);
         cellFont = new Font("Arial", Font.BOLD, 20);
+        notesFont = new Font("Arial", Font.ITALIC, 12);
         //textField.setHorizontalAlignment(JLabel.CENTER);
         //textField.setVerticalAlignment(JLabel.TOP);
         //textField.setBackground(Color.green);
@@ -54,6 +56,8 @@ public abstract class Cell extends JPanel {
             for (int i = 0; i < 9; i++) {
                 notes[i] = new JLabel();
                 notes[i].setText("");
+                notes[i].setHorizontalAlignment(JLabel.CENTER);
+                notes[i].setFont(notesFont);
             }
     }
 

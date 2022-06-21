@@ -1,10 +1,12 @@
 package Sudoku;
 
+import Actions.*;
 import Controll.Controll;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.Type;
 
 public class SudokuPanel extends JPanel {
     Controll theControll;
@@ -16,9 +18,11 @@ public class SudokuPanel extends JPanel {
     JButton buttonCheck;
     SudokuCell[][] grid;
     SudokuCell currentSelectedCell;
+
     boolean shiftPressed = false;
 
     public SudokuPanel(Controll theControll) {
+
         setFocusable(true);
         this.theControll = theControll;
         setBounds(0, 75, 900, 600);
@@ -38,6 +42,7 @@ public class SudokuPanel extends JPanel {
         initSudokuField();
         markCellsWhenSelected();
         initWriteInCells(grid);
+
 
         buttonExit = new JButton("Exit");
         buttonExit.addActionListener(new ActionListener() {
@@ -87,121 +92,88 @@ public class SudokuPanel extends JPanel {
         add(gridPanel);
         add(buttonPanel);
 
+        InputMap im = getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = getActionMap();
 
-        addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
+        im.put(KeyStroke.getKeyStroke('1'), "write1");
+        am.put("write1", new Type1Action(this, false));
 
-            }
+        im.put(KeyStroke.getKeyStroke('1', InputEvent.SHIFT_DOWN_MASK), "write1shift");
+        am.put("write1shift", new Type1Action(this, true));
 
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                    shiftPressed = true;
-                }
-                if (!currentSelectedCell.isLocked()) {
-                    if (!shiftPressed) {
-                        switch (e.getKeyCode()) {
-                            case KeyEvent.VK_1:
-                                System.out.println("1");
-                                currentSelectedCell.setValueLayout();
-                                currentSelectedCell.setValueandDraw(1);
-                                break;
-                            case KeyEvent.VK_2:
-                                System.out.println("2");
-                                currentSelectedCell.setValueLayout();
-                                currentSelectedCell.setValueandDraw(2);
-                                break;
-                            case KeyEvent.VK_3:
-                                currentSelectedCell.setValueLayout();
-                                currentSelectedCell.setValueandDraw(3);
-                                break;
-                            case KeyEvent.VK_4:
-                                currentSelectedCell.setValueLayout();
-                                currentSelectedCell.setValueandDraw(4);
-                                break;
-                            case KeyEvent.VK_5:
-                                currentSelectedCell.setValueLayout();
-                                currentSelectedCell.setValueandDraw(5);
-                                break;
-                            case KeyEvent.VK_6:
-                                currentSelectedCell.setValueLayout();
-                                currentSelectedCell.setValueandDraw(6);
-                                break;
-                            case KeyEvent.VK_7:
-                                currentSelectedCell.setValueLayout();
-                                currentSelectedCell.setValueandDraw(7);
-                                break;
-                            case KeyEvent.VK_8:
-                                currentSelectedCell.setValueLayout();
-                                currentSelectedCell.setValueandDraw(8);
-                                break;
-                            case KeyEvent.VK_9:
-                                currentSelectedCell.setValueLayout();
-                                currentSelectedCell.setValueandDraw(9);
-                                break;
-                            case KeyEvent.VK_BACK_SPACE:
-                            case KeyEvent.VK_DELETE:
-                                currentSelectedCell.setValueandDraw(0);
-                                e.consume(); //verhindert dass Windows einen Fehlersound bei Eingaben wie BackSpace abspieltbreak;
-                                break;
-                        }
-                    } else {
-                        switch (e.getKeyCode()) {
-                            case KeyEvent.VK_1:
-                                currentSelectedCell.setNotesLayout();
-                                currentSelectedCell.notes[0].setText("1");
-                                break;
-                            case KeyEvent.VK_2:
-                                currentSelectedCell.setNotesLayout();
-                                currentSelectedCell.notes[1].setText("2");
-                                break;
-                            case KeyEvent.VK_3:
-                                currentSelectedCell.setNotesLayout();
-                                currentSelectedCell.notes[2].setText("3");
-                                break;
-                            case KeyEvent.VK_4:
-                                currentSelectedCell.setNotesLayout();
-                                currentSelectedCell.notes[3].setText("4");
-                                break;
-                            case KeyEvent.VK_5:
-                                currentSelectedCell.setNotesLayout();
-                                currentSelectedCell.notes[4].setText("5");
-                                break;
-                            case KeyEvent.VK_6:
-                                currentSelectedCell.setNotesLayout();
-                                currentSelectedCell.notes[5].setText("6");
-                                break;
-                            case KeyEvent.VK_7:
-                                currentSelectedCell.setNotesLayout();
-                                currentSelectedCell.notes[6].setText("7");
-                                break;
-                            case KeyEvent.VK_8:
-                                currentSelectedCell.setNotesLayout();
-                                currentSelectedCell.notes[7].setText("8");
-                                break;
-                            case KeyEvent.VK_9:
-                                currentSelectedCell.setNotesLayout();
-                                currentSelectedCell.notes[8].setText("9");
-                                break;
-                            case KeyEvent.VK_BACK_SPACE:
-                            case KeyEvent.VK_DELETE:
-                                currentSelectedCell.setValueandDraw(0);
-                                e.consume(); //verhindert dass Windows einen Fehlersound bei Eingaben wie BackSpace abspieltbreak;
-                                break;
-                        }
-                    }
+        im.put(KeyStroke.getKeyStroke('2'), "write2");
+        am.put("write2", new Type2Action(this, false));
 
-                }
-            }
+        im.put(KeyStroke.getKeyStroke('2', InputEvent.SHIFT_DOWN_MASK), "write2shift");
+        am.put("write2shift", new Type2Action(this, true));
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                    shiftPressed = false;
-                }
-            }
-        });
+        im.put(KeyStroke.getKeyStroke('3'), "write3");
+        am.put("write3", new Type3Action(this, false));
+
+        im.put(KeyStroke.getKeyStroke('3', InputEvent.SHIFT_DOWN_MASK), "write3shift");
+        am.put("write3shift", new Type3Action(this, true));
+
+        im.put(KeyStroke.getKeyStroke('4'), "write4");
+        am.put("write4", new Type4Action(this, false));
+
+        im.put(KeyStroke.getKeyStroke('4', InputEvent.SHIFT_DOWN_MASK), "write4shift");
+        am.put("write4shift", new Type4Action(this, true));
+
+        im.put(KeyStroke.getKeyStroke('5'), "write5");
+        am.put("write5", new Type5Action(this, false));
+
+        im.put(KeyStroke.getKeyStroke('5', InputEvent.SHIFT_DOWN_MASK), "write5shift");
+        am.put("write5shift", new Type5Action(this, true));
+
+        im.put(KeyStroke.getKeyStroke('6'), "write6");
+        am.put("write6", new Type6Action(this, false));
+
+        im.put(KeyStroke.getKeyStroke('6', InputEvent.SHIFT_DOWN_MASK), "write6shift");
+        am.put("write6shift", new Type6Action(this, true));
+
+        im.put(KeyStroke.getKeyStroke('7'), "write7");
+        am.put("write7", new Type7Action(this, false));
+
+        im.put(KeyStroke.getKeyStroke('7', InputEvent.SHIFT_DOWN_MASK), "write7shift");
+        am.put("write7shift", new Type7Action(this, true));
+
+        im.put(KeyStroke.getKeyStroke('8'), "write8");
+        am.put("write8", new Type8Action(this, false));
+
+        im.put(KeyStroke.getKeyStroke('8', InputEvent.SHIFT_DOWN_MASK), "write8shift");
+        am.put("write8shift", new Type8Action(this, true));
+
+        im.put(KeyStroke.getKeyStroke('9'), "write9");
+        am.put("write9", new Type9Action(this, false));
+
+        im.put(KeyStroke.getKeyStroke('9', InputEvent.SHIFT_DOWN_MASK), "write9shift");
+        am.put("write9shift", new Type9Action(this, true));
+
+        im.put(KeyStroke.getKeyStroke("BACK_SPACE"), "delete");
+        am.put("delete", new DeleteValueAction(this));
+
+    }
+
+    public void triggerWriteValue(int value){
+        currentSelectedCell.setValueLayout();
+        currentSelectedCell.setValueandDraw(value);
+    }
+
+    public void triggerWriteNote(int value){
+        currentSelectedCell.setNotesLayout();
+        if(currentSelectedCell.notes[value-1].getText() == ""){
+            currentSelectedCell.notes[value-1].setText(String.valueOf(value));
+        }
+        else{
+            currentSelectedCell.notes[value-1].setText("");
+        }
+    }
+
+    public void removeNotes(){
+        for(int i = 0; i<9; i++){
+            currentSelectedCell.notes[i].setText("");
+        }
+
     }
 
     private void initSudokuField() {
