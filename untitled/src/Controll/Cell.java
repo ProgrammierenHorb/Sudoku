@@ -5,14 +5,21 @@ import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public abstract class Cell extends JPanel {
 
+    protected boolean[] notesActive;
+    public JLabel[] notes;
     protected int cellValue;
     protected JLabel textField;
     protected int[] position;
     protected boolean locked;
     protected Font cellFont;
+
+    GridLayout notesLayout = new GridLayout(3, 3);
+    GridBagLayout valueLayout = new GridBagLayout();
 
     public Cell() {
         cellValue = 0;
@@ -23,74 +30,57 @@ public abstract class Cell extends JPanel {
         this.position = position;
         cellValue = 0;
         init();
+        initNotes();
     }
 
     public void init() {
-        setFocusable(true);
         textField = new JLabel();
-        setLayout(new FlowLayout());
+        setLayout(valueLayout);
+        markDefault();
+        //add(textField, Grid.CENTER);
         add(textField);
-        setLock(false);
         cellFont = new Font("Arial", Font.BOLD, 20);
-        textField.setHorizontalAlignment(JLabel.CENTER);
-        textField.setVerticalAlignment(JLabel.CENTER);
+        //textField.setHorizontalAlignment(JLabel.CENTER);
+        //textField.setVerticalAlignment(JLabel.TOP);
+        //textField.setBackground(Color.green);
         textField.setFont(cellFont);
         drawBorder();
         //textField.setEditable(false); //Alle Felder sind nicht Editierbar, so dass der Benutzer keine Eingaben außer über den KeyListener machen kann
 
-        //KeyListener für Eingaben der Felder die nicht gesperrt (=!isLocked) sind
-        this.addKeyListener(new KeyListener() {
+    }
 
-            @Override
-            public void keyTyped(KeyEvent e) {
-                //irrelevant
+    public void initNotes(){
+            notes = new JLabel[9];
+            for (int i = 0; i < 9; i++) {
+                notes[i] = new JLabel();
+                notes[i].setText("");
             }
+    }
 
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (true) {
-                    switch (e.getKeyCode()) {
-                        case KeyEvent.VK_1:
-                            textField.setText("1");
-                            break;
-                        case KeyEvent.VK_2:
-                            textField.setText("2");
-                            break;
-                        case KeyEvent.VK_3:
-                            textField.setText("3");
-                            break;
-                        case KeyEvent.VK_4:
-                            textField.setText("4");
-                            break;
-                        case KeyEvent.VK_5:
-                            textField.setText("5");
-                            break;
-                        case KeyEvent.VK_6:
-                            textField.setText("6");
-                            break;
-                        case KeyEvent.VK_7:
-                            textField.setText("7");
-                            break;
-                        case KeyEvent.VK_8:
-                            textField.setText("8");
-                            break;
-                        case KeyEvent.VK_9:
-                            textField.setText("9");
-                            break;
-                        case KeyEvent.VK_BACK_SPACE:
-                        case KeyEvent.VK_DELETE:
-                            textField.setText("");
-                            e.consume(); //verhindert dass Windows einen Fehlersound bei Eingaben wie BackSpace abspieltbreak;
-                            break;
-                    }
-                }
+    public void setNotesLayout(){
+        if(getLayout() != notesLayout) {
+            setLayout(notesLayout);
+            remove(textField);
+            revalidate();
+            repaint();
+            for (int i = 0; i < 9; i++) {
+                notes[i].setText("");
+                add(notes[i]);
             }
+        }
+    }
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-                //irrelevant
+    public void setValueLayout(){
+        if(getLayout() != valueLayout){
+            setValueandDraw(0);
+            for(int i = 0; i < 9; i++) {
+                remove(notes[i]);
             }
-        });
+            revalidate();
+            repaint();
+            setLayout(valueLayout);
+            add(textField);
+        }
     }
 
     private void drawBorder() {
@@ -132,8 +122,8 @@ public abstract class Cell extends JPanel {
 
     public void setLock(boolean L) {
         locked = L;
-        if (locked) setForeground(new Color(100, 100, 100));
-        else setForeground(Color.BLACK);
+        if (locked) {textField.setForeground(new Color(100, 100, 100));}
+        else {textField.setForeground(Color.BLACK);}
     }
 
     public boolean isLocked() {
