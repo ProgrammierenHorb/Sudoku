@@ -19,6 +19,10 @@ public class SudokuPanel extends JPanel {
     SudokuCell[][] grid;
     SudokuCell currentSelectedCell;
 
+    private JLabel timerLabel;
+    private Timer timer;
+    public int[] time = {0,0,0};
+
     boolean shiftPressed = false;
 
     public SudokuPanel(Controll theControll) {
@@ -41,6 +45,30 @@ public class SudokuPanel extends JPanel {
 
         initSudokuField();
         initWriteInCells(grid);
+
+        timerLabel = new JLabel("Spielzeit: 0h 0m 0s");
+        timerLabel.setBounds(25, 555, 275, 25);
+        timerLabel.setBackground(Color.WHITE);
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 15) );
+        ActionListener timerAction = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                time[0]++;
+                if(time[0]%60 == 0){
+                    time[0] = 0;
+                    time[1]++;
+                    if(time[1]%60 == 0){
+                        time[1] = 0;
+                        time[2]++;
+                    }
+                }
+
+                timerLabel.setText("Spielzeit: " + String.valueOf(time[2] +"h "+ time[1] +"m "+ time[0] + "s"));
+            }
+        };
+        timer = new Timer(1000, timerAction);
+        timer.start();
+        add(timerLabel);
 
 
         buttonExit = new JButton("Exit");
@@ -69,8 +97,12 @@ public class SudokuPanel extends JPanel {
         buttonNewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                theControll.callSudokuGenerator(grid);
 
+                time[0] = 0;
+                time[1] = 0;
+                time[2] = 0;
+
+                theControll.callSudokuGenerator(grid);
             }
         });
         createButton(buttonNewGame, 10, 25);

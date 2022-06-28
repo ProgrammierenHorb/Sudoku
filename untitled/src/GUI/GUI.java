@@ -14,9 +14,6 @@ public class GUI {
     private JPanel killerPanel;
     private JPanel str8tsPanel;
 
-    private JPanel gridPanel, buttonPanel, drawPanel;
-    private JButton buttonClue, buttonNewGame, buttonExit, buttonCheck;
-
     private JMenuBar menuBar;
     private JMenu modeSelection;
     private JMenuItem sudoku;
