@@ -15,7 +15,7 @@ public class ArrowDOWNAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        sudokuPanel.changeCurrentSelectedCell("DOWN");
+        sudokuPanel.changeCurrentSelectedCellWithArrowKeys("DOWN");
     }
 
 }

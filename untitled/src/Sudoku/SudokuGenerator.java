@@ -36,8 +36,8 @@ public class SudokuGenerator extends Generator {
             if(grid[vertical][x].getCellValue() == n) return false;
         }
 
-        box_x = (int) (x / 3) * 3;
-        box_y = (int) (y / 3) * 3;
+        box_x = (x / 3) * 3;
+        box_y = (y / 3) * 3;
 
         for(int i = box_x; i < box_x + 3; i++){
             for(int j = box_y; j < box_y + 3; j++){
@@ -48,7 +48,7 @@ public class SudokuGenerator extends Generator {
     }
 
     @Override
-    public void generateFilledGrid(Cell[][] grid){
+    public void generateFilledGrid(Cell[][] grid, String difficulty){
 
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
@@ -65,7 +65,7 @@ public class SudokuGenerator extends Generator {
             }
         }
 
-        removeValues(grid);
+        removeValues(grid, difficulty);
         kill = false;
     }
 
@@ -94,7 +94,7 @@ public class SudokuGenerator extends Generator {
     }
 
     @Override
-    public void removeValues(Cell[][] grid){
+    public void removeValues(Cell[][] grid, String difficulty){
         int[][] gridCopy = new int[9][9];
 
         for(int i = 0; i < 9; i++){
@@ -103,24 +103,42 @@ public class SudokuGenerator extends Generator {
             }
         }
 
-        int count = 65;
-        solutions = 0;
+        int countremove;
+        int toleranz;
+
+        if (difficulty.equals("medium")){
+            countremove = 55;
+            toleranz = 5;
+        }
+        else{
+            countremove = 45;
+            toleranz = 5;
+        }
+
         int rememberLastValue = 0;
 
-        while(count > 0){
+        while(countremove > 0){
 
             int row = (int) (Math.random()*9);
             int column = (int) (Math.random()*9);
 
             if(grid[row][column].getCellValue() != 0){
-                count--;
+                System.out.println("Countremove:"+ countremove);
+                System.out.println("solutions:"+ solutions);
+                countremove--;
                 rememberLastValue = grid[row][column].getCellValue();
                 grid[row][column].setCellValue(0);
                 grid[row][column].setLock(false);
-                getNrOfSolutions(grid);
+                solutions = getNrOfSolutions(grid);
 
-                if(solutions > 1 && count > 15){
-                    count = 65;
+                if(solutions > 1 && countremove > toleranz){
+                    System.out.println("ho");
+                    if (difficulty.equals("medium")){
+                        countremove = 55;
+                    }
+                    else{
+                        countremove = 45;
+                    }
 
                     for(int i = 0; i < 9; i++){
                         for(int j = 0; j < 9; j++){
@@ -128,7 +146,6 @@ public class SudokuGenerator extends Generator {
                             grid[i][j].setLock(true);
                         }
                     }
-
                 }
                 else if(solutions > 1){
                     grid[row][column].setCellValue(rememberLastValue);

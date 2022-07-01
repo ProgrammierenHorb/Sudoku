@@ -33,7 +33,7 @@ public class ActionHandler implements ActionListener {
             } else if (e.getSource() == buttonNewGame) {
                 //Code hier für ein neues Game --> Machen wir verschiedene Schwierigkeiten?
 
-                controll.callSudokuGenerator(grid);
+                //controll.callSudokuGenerator(grid, difficulty);
 
             } else if (e.getSource() == buttonClue) {
                 //SudokuCell value vergleichen mit Solver

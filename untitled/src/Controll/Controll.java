@@ -1,6 +1,4 @@
 package Controll;
-import Killer.KillerCell;
-import Killer.KillerGenerator;
 import Sudoku.SudokuCell;
 import GUI.GUI;
 import Sudoku.SudokuGenerator;
@@ -11,21 +9,16 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Controll {
-    private GUI theGUI;
+    private GUI gui;
+    private SudokuGenerator sudokuGenerator;
     public Controll(){
-
-        theGUI = new GUI(this);
-
+        sudokuGenerator = new SudokuGenerator();
+        gui = new GUI(this);
     }
 
     public static void main(String[] args){
-
-        Controll theControll = new Controll();
-
+        new Controll();
     }
-
-    SudokuGenerator sudokuGenerator = new SudokuGenerator();
-    KillerGenerator killerGenerator = new KillerGenerator();
 
     public void callgetClue(SudokuCell[][] grid){
         boolean clueFound = false;
@@ -51,27 +44,18 @@ public class Controll {
             grid[y][x].markWithColor(new Color(255, 246, 179));
         }
     }
-    public void callSudokuGenerator(SudokuCell[][] grid){
-        sudokuGenerator.generateFilledGrid(grid);
+    public void callSudokuGenerator(SudokuCell[][] grid, String difficulty){
+        System.out.println(difficulty);
+        sudokuGenerator.generateFilledGrid(grid, difficulty);
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 grid[i][j].markDefault();
                 grid[i][j].drawValueOnGUI();
                 for(int k = 0; k < 9; k++){
-                    grid[i][j].notes[k].setText("");
+                    grid[i][j].getNotes()[k].setText("");
                 }
             }
         }
-    }
-
-    public void callKillerGenerator(KillerCell[][] grid){
-        /*killerGenerator.generateFilledGrid(grid);
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                //grid[i][j].markDefault();
-                grid[i][j].drawValueOnGUI();
-            }
-        }*/
     }
 
     public void callSudokuInputCheck(SudokuCell[][] inputgrid){
@@ -110,7 +94,7 @@ public class Controll {
             JOptionPane.showMessageDialog(null, "Not Filled: " + notfilled + "\nWrong: " + wrong + "\nRight: " + right);
         }
         else {
-            JOptionPane.showMessageDialog(null, "Gewinde Gewinde Gewinde");
+            JOptionPane.showMessageDialog(null, "Gewonnen");
         }
     }
 }

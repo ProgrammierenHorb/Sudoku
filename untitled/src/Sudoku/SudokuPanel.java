@@ -6,121 +6,146 @@ import Controll.Controll;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.reflect.Type;
 
 public class SudokuPanel extends JPanel {
-    Controll theControll;
-    JPanel gridPanel;
-    JPanel buttonPanel;
-    JButton buttonExit;
-    JButton buttonClue;
-    JButton buttonNewGame;
-    JButton buttonCheck;
-    SudokuCell[][] grid;
-    SudokuCell currentSelectedCell;
-
+    private Controll theControll;
+    private JPanel gridPanel;
+    private JPanel buttonPanel;
+    private JButton buttonExit;
+    private JButton buttonClue;
+    private JButton buttonNewGame;
+    private JButton buttonCheck;
+    private SudokuCell[][] grid;
+    private SudokuCell currentSelectedCell;
+    private String difficulty;
     private JLabel timerLabel;
+    private JLabel difficultyLabel;
     private Timer timer;
     public int[] time = {0,0,0};
 
-    boolean shiftPressed = false;
 
     public SudokuPanel(Controll theControll) {
-
-        setFocusable(true);
+        //Referenz auf Controll-Instanz in Attributen speichern
         this.theControll = theControll;
+
+        //Initialisierung von der Sudoku Oberfläche
+        setFocusable(true);
         setBounds(0, 75, 900, 600);
         setLayout(null);
         setBackground(Color.white);
 
+        //Erstellen des Sudoku Spielfelds
         gridPanel = new JPanel();
         gridPanel.setBounds(25, 50, 500, 500);
         gridPanel.setBackground(Color.GRAY);
         gridPanel.setLayout(new GridLayout(9, 9));
         gridPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
+        //Erstellen des JPanels für die Knöpfe
         buttonPanel = new JPanel();
         buttonPanel.setBounds(575, 50, 300, 500);
         buttonPanel.setLayout(null);
 
-        initSudokuField();
-        initWriteInCells(grid);
+        //Standardwert Schwierigkeit
+        difficulty = "medium";
+        difficultyLabel = new JLabel("Schwierigkeit: " + difficulty);
+        difficultyLabel.setBounds(717, 555, 275, 25);
+        difficultyLabel.setFont(new Font("Arial", Font.BOLD, 15) );
+        add(difficultyLabel);
 
+        initSudokuField();
+        changeCurrentSelectedCellsWithMouse(grid);
+
+        //Timer für Spielzeit erstellen
         timerLabel = new JLabel("Spielzeit: 0h 0m 0s");
         timerLabel.setBounds(25, 555, 275, 25);
         timerLabel.setBackground(Color.WHITE);
         timerLabel.setFont(new Font("Arial", Font.BOLD, 15) );
-        ActionListener timerAction = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                time[0]++;
-                if(time[0]%60 == 0){
-                    time[0] = 0;
-                    time[1]++;
-                    if(time[1]%60 == 0){
-                        time[1] = 0;
-                        time[2]++;
-                    }
+        ActionListener timerAction = e -> {
+            time[0]++;
+            if(time[0]%60 == 0){
+                time[0] = 0;
+                time[1]++;
+                if(time[1]%60 == 0){
+                    time[1] = 0;
+                    time[2]++;
                 }
-
-                timerLabel.setText("Spielzeit: " + String.valueOf(time[2] +"h "+ time[1] +"m "+ time[0] + "s"));
             }
+            timerLabel.setText("Spielzeit: " + time[2] +"h "+ time[1] +"m "+ time[0] + "s");
         };
+
+        //Timer intervall setzen, starten und auf Sudoku Oberfläche hinzufügen
         timer = new Timer(1000, timerAction);
         timer.start();
         add(timerLabel);
 
-
+        //Exit Button initialisieren inkl. Action Listener
         buttonExit = new JButton("Exit");
-        buttonExit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int reply = JOptionPane.showConfirmDialog(null, "Wirklich beenden?", "Programm beenden?", JOptionPane.YES_NO_OPTION);
-                if (reply == JOptionPane.YES_OPTION) {
-                    System.exit(0);
-                }
+        buttonExit.addActionListener(e -> {
+            int reply = JOptionPane.showConfirmDialog(null, "Wirklich beenden?", "Programm beenden?", JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.YES_OPTION) {
+                System.exit(0);
             }
         });
-
         createButton(buttonExit, 10, 400);
 
+        //Clue Button initialisieren inkl. Action Listener
         buttonClue = new JButton("Get Clue");
-        buttonClue.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                theControll.callgetClue(grid);
-            }
-        });
+        buttonClue.addActionListener(e -> theControll.callgetClue(grid));
         createButton(buttonClue, 10, 275);
 
+        //New Game Button initialisieren inkl. Action Listener
         buttonNewGame = new JButton("New Game");
-        buttonNewGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonNewGame.addActionListener(e -> {
 
-                time[0] = 0;
-                time[1] = 0;
-                time[2] = 0;
+            theControll.callSudokuGenerator(grid, difficulty);
 
-                theControll.callSudokuGenerator(grid);
-            }
+            time[0] = 0;
+            time[1] = 0;
+            time[2] = 0;
+
+            setDifficultyLabel(difficulty);
         });
         createButton(buttonNewGame, 10, 25);
 
+        //Check Button initialisieren inkl. Action Listener
         buttonCheck = new JButton("Check");
-        buttonCheck.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                theControll.callSudokuInputCheck(grid);
-            }
-        });
+        buttonCheck.addActionListener(e -> theControll.callSudokuInputCheck(grid));
         createButton(buttonCheck, 10, 150);
 
-        theControll.callSudokuGenerator(grid);
+        theControll.callSudokuGenerator(grid, difficulty);
 
+        //Panels auf Sudoku Oberfläche hinzufügen
         add(gridPanel);
         add(buttonPanel);
 
+        //Key Bindings für Eingabe der Zahlen + Bewegung mit den Pfeiltasten
+        initKeyBindings();
+
+    }
+
+    //Methode schreibt festen Wert (SHIFT+zahl) in das jeweilige Feld
+    public void triggerWriteValue(int value) {
+        if (currentSelectedCell != null && !currentSelectedCell.isLocked()) {
+            currentSelectedCell.setValueLayout();
+            currentSelectedCell.setValueandDraw(value);
+        }
+    }
+
+    //Methode schreibt eingegebenen Wert als Notizu in das jeweilige Feld bzw. entfernt die Notizt bei wiederholtem drücken der Taste
+    public void triggerWriteNote(int value) {
+        if (currentSelectedCell != null && !currentSelectedCell.isLocked()) {
+            currentSelectedCell.setNotesLayout();
+            if (currentSelectedCell.getNotes()[value - 1].getText() == "") {
+                currentSelectedCell.getNotes()[value - 1].setText(String.valueOf(value));
+            } else {
+                currentSelectedCell.getNotes()[value - 1].setText("");
+            }
+        }
+    }
+
+    //Setzt alle KeyBindings für Eingabe der Zahlen + Steuerung mit Pfeiltasten
+    private void initKeyBindings(){
         InputMap im = getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
         ActionMap am = getActionMap();
 
@@ -193,29 +218,10 @@ public class SudokuPanel extends JPanel {
         im.put(KeyStroke.getKeyStroke("RIGHT"), "moveRIGHT");
         am.put("moveRIGHT", new ArrowRIGHTAction(this));
 
-
     }
 
-    public void triggerWriteValue(int value) {
-        if (currentSelectedCell != null && !currentSelectedCell.isLocked()) {
-            currentSelectedCell.setValueLayout();
-            currentSelectedCell.setValueandDraw(value);
-        }
-    }
-
-    public void triggerWriteNote(int value) {
-        if (currentSelectedCell != null && !currentSelectedCell.isLocked()) {
-            currentSelectedCell.setNotesLayout();
-            if (currentSelectedCell.notes[value - 1].getText() == "") {
-                currentSelectedCell.notes[value - 1].setText(String.valueOf(value));
-            } else {
-                currentSelectedCell.notes[value - 1].setText("");
-            }
-        }
-
-    }
-
-    public void changeCurrentSelectedCell(String direction) {
+    //Ändert das ausgewählte Sudoku Feld mit Pfeiltasten
+    public void changeCurrentSelectedCellWithArrowKeys(String direction) {
         if (currentSelectedCell != null) {
 
             if (direction == "UP") {
@@ -240,15 +246,13 @@ public class SudokuPanel extends JPanel {
                 }
             }
         }
-
-
     }
 
+    //Entwernt alle Notizen aus einem Sudokufeld
     public void removeNotes() {
         for (int i = 0; i < 9; i++) {
-            currentSelectedCell.notes[i].setText("");
+            currentSelectedCell.getNotes()[i].setText("");
         }
-
     }
 
     private void initSudokuField() {
@@ -264,6 +268,7 @@ public class SudokuPanel extends JPanel {
         }
     }
 
+    //Markiert alle Zellen, die in der gleichen Zeile, Spalte oder 3x3 Quadrat wie die gegebene Position sind
     private void markCellsSelected(int[] position) {
         Color colormarkselected = new Color(215, 255, 255);
 
@@ -287,7 +292,7 @@ public class SudokuPanel extends JPanel {
     }
 
 
-    private void initWriteInCells(SudokuCell[][] grid) {
+    private void changeCurrentSelectedCellsWithMouse(SudokuCell[][] grid) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 int finalI = i;
@@ -297,14 +302,13 @@ public class SudokuPanel extends JPanel {
                     public void mouseClicked(MouseEvent e) {
                         currentSelectedCell = grid[finalI][finalJ];
                         markCellsSelected(new int[]{finalI, finalJ});
-                        System.out.print(finalI);
-                        System.out.println(finalJ);
                     }
                 });
             }
         }
     }
 
+    //Kosmetische Änderung der Buttons + Zuweisung der Listeners
     public void createButton(JButton button, int x, int y) {
         setFocusable(false);
         button.setBounds(x, y, 275, 75);
@@ -339,5 +343,18 @@ public class SudokuPanel extends JPanel {
         });
         buttonPanel.add(button);
     }
+
+    public void setDifficulty(String difficulty){
+        this.difficulty = difficulty;
+    }
+
+    public void setDifficultyLabel(String difficulty){
+        difficultyLabel.setText("Schwierigkeit: " + difficulty);
+    }
+
+    public String getDifficulty(){
+        return this.difficulty;
+    }
+
 }
 

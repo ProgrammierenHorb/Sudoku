@@ -1,8 +1,6 @@
 package Killer;
 
-import Sudoku.SudokuCell;
 import Controll.Controll;
-import Sudoku.ActionHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +18,7 @@ public class KillerPanel extends JPanel{
     JButton buttonClue;
     JButton buttonNewGame;
     JButton buttonCheck;
+    String difficulty;
     KillerCell[][] grid;
 
     public KillerPanel(Controll theControll){
@@ -59,12 +58,12 @@ public class KillerPanel extends JPanel{
         createButton(buttonClue, 10, 275);
 
         buttonNewGame = new JButton("New Game");
-        buttonNewGame.addActionListener(new ActionListener() {
+        /*buttonNewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 theControll.callKillerGenerator(grid);
             }
-        });
+        });*/
         createButton(buttonNewGame, 10, 25);
 
         buttonCheck = new JButton("Check");

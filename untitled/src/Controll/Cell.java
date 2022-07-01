@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 public abstract class Cell extends JPanel {
 
     protected boolean[] notesActive;
-    public JLabel[] notes;
+    private JLabel[] notes;
     protected int cellValue;
     protected JLabel textField;
     protected int[] position;
@@ -52,6 +52,7 @@ public abstract class Cell extends JPanel {
                 notes[i] = new JLabel();
                 notes[i].setText("");
                 notes[i].setHorizontalAlignment(JLabel.CENTER);
+                notes[i].setVerticalAlignment(JLabel.CENTER);
                 notes[i].setFont(notesFont);
             }
     }
@@ -155,6 +156,10 @@ public abstract class Cell extends JPanel {
 
     public int[] getPosition(){
         return new int[] {position[0], position[1]};
+    }
+
+    public JLabel[] getNotes(){
+        return notes;
     }
 
     public JLabel getTextField(){
