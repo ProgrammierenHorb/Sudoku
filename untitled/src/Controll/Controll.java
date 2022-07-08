@@ -104,9 +104,8 @@ public class Controll {
             JFrame gewonnenFrame = new JFrame("Gewonnen");
             URL url;
             try{
-
-                url = new URL("https://static.wikia.nocookie.net/b__/images/6/69/DancingMonkey.gif/revision/latest/scale-to-width-down/300?cb=20210507034831&path-prefix=bloons");
-                Icon icon =  new ImageIcon(url);
+                url = this.getClass().getResource("/rsc/DancingMonkey.gif");
+                ImageIcon icon =  new ImageIcon(url);
                 JLabel label = new JLabel(icon);
 
                 label.setBounds(0, 0, 300, 216);
