@@ -39,7 +39,7 @@ public class ActionHandler implements ActionListener {
                 //SudokuCell value vergleichen mit Solver
                 controll.callgetClue(grid);
             } else if (e.getSource() == buttonCheck){
-                controll.callSudokuInputCheck(grid);
+                //controll.callSudokuInputCheck(grid);
             }
         }
 }

@@ -123,8 +123,8 @@ public class SudokuGenerator extends Generator {
             int column = (int) (Math.random()*9);
 
             if(grid[row][column].getCellValue() != 0){
-                System.out.println("Countremove:"+ countremove);
-                System.out.println("solutions:"+ solutions);
+                //System.out.println("Countremove:"+ countremove);
+                //System.out.println("solutions:"+ solutions);
                 countremove--;
                 rememberLastValue = grid[row][column].getCellValue();
                 grid[row][column].setCellValue(0);

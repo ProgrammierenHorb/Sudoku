@@ -13,7 +13,7 @@ public class GUI {
     private JMenuBar menuBar;
     private JMenu modeSelection;
     private JMenuItem difficulty_easy;
-    private JMenuItem difficulty_medium;
+    private JMenuItem difficulty_default;
     private final int SCREEN_WIDTH = 900;
     private final int SCREEN_HEIGHT = 620;
 
@@ -36,13 +36,13 @@ public class GUI {
 
         frame.add(menuBar);
 
-        modeSelection = new JMenu("Modus auswählen");
+        modeSelection = new JMenu("Change difficulty");
         menuBar.add(modeSelection);
 
         difficulty_easy = new JMenuItem("Easy");
         modeSelection.add(difficulty_easy);
-        difficulty_medium = new JMenuItem("Medium");
-        modeSelection.add(difficulty_medium);
+        difficulty_default = new JMenuItem("Default");
+        modeSelection.add(difficulty_default);
 
         difficulty_easy.addActionListener(new ActionListener() {
             @Override
@@ -51,10 +51,10 @@ public class GUI {
             }
         });
 
-        difficulty_medium.addActionListener(new ActionListener() {
+        difficulty_default.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sudokuPanel.setDifficulty("medium");
+                sudokuPanel.setDifficulty("default");
             }
         });
         frame.setVisible(true);

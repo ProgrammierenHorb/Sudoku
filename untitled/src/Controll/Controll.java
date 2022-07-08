@@ -2,13 +2,18 @@ package Controll;
 import Sudoku.SudokuCell;
 import GUI.GUI;
 import Sudoku.SudokuGenerator;
+import Sudoku.SudokuPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Controll {
+    public boolean gewonnen = false;
+    public boolean noClues = false;
     private GUI gui;
     private SudokuGenerator sudokuGenerator;
     public Controll(){
@@ -34,7 +39,8 @@ public class Controll {
             }
         }
         if(!clueFound){
-            JOptionPane.showMessageDialog(null, "Keine weiteren Tipps möglich");
+            noClues = true;
+            JOptionPane.showMessageDialog(null, "There are no clues awailable anymore");
         }
         else{
             int random = (int) (Math.random() * notFilledCells.size());
@@ -45,7 +51,6 @@ public class Controll {
         }
     }
     public void callSudokuGenerator(SudokuCell[][] grid, String difficulty){
-        System.out.println(difficulty);
         sudokuGenerator.generateFilledGrid(grid, difficulty);
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
@@ -91,14 +96,31 @@ public class Controll {
             }
         }
         if(!won){
+            gewonnen = false;
             JOptionPane.showMessageDialog(null, "Not Filled: " + notfilled + "\nWrong: " + wrong + "\nRight: " + right);
         }
         else {
-           // JOptionPane.showMessageDialog(null, "Gewonnen");
+            gewonnen = true;
             JFrame gewonnenFrame = new JFrame("Gewonnen");
+            URL url;
+            try{
 
-           // gewonnenFrame.setBounds();
-            //gewonnenFrame.add(lama);
+                url = new URL("https://static.wikia.nocookie.net/b__/images/6/69/DancingMonkey.gif/revision/latest/scale-to-width-down/300?cb=20210507034831&path-prefix=bloons");
+                Icon icon =  new ImageIcon(url);
+                JLabel label = new JLabel(icon);
+
+                label.setBounds(0, 0, 300, 216);
+                gewonnenFrame.getContentPane().add(label);
+                gewonnenFrame.pack();
+                gewonnenFrame.setBounds(400, 400, 360, 276);
+                gewonnenFrame.setLocationRelativeTo(null);
+
+                gewonnenFrame.getContentPane().setBackground(Color.WHITE);
+                gewonnenFrame.setVisible(true);
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -19,6 +19,8 @@ public class SudokuPanel extends JPanel {
     private SudokuCell currentSelectedCell;
     private String difficulty;
     private JLabel timerLabel;
+    private int usedClues;
+    private JLabel clueCounterLabel;
     private JLabel difficultyLabel;
     private Timer timer;
     public int[] time = {0,0,0};
@@ -47,8 +49,8 @@ public class SudokuPanel extends JPanel {
         buttonPanel.setLayout(null);
 
         //Standardwert Schwierigkeit
-        difficulty = "medium";
-        difficultyLabel = new JLabel("Schwierigkeit: " + difficulty);
+        difficulty = "default";
+        difficultyLabel = new JLabel("Difficulty: " + difficulty);
         difficultyLabel.setHorizontalAlignment(JLabel.RIGHT);
         difficultyLabel.setBounds(600, 555, 275, 25);
         difficultyLabel.setFont(new Font("Arial", Font.BOLD, 15) );
@@ -58,21 +60,25 @@ public class SudokuPanel extends JPanel {
         changeCurrentSelectedCellsWithMouse(grid);
 
         //Timer für Spielzeit erstellen
-        timerLabel = new JLabel("Spielzeit: 0h 0m 0s");
+        timerLabel = new JLabel("Game time: 0h 0m 0s");
         timerLabel.setBounds(25, 555, 275, 25);
         timerLabel.setBackground(Color.WHITE);
         timerLabel.setFont(new Font("Arial", Font.BOLD, 15) );
         ActionListener timerAction = e -> {
-            time[0]++;
-            if(time[0]%60 == 0){
-                time[0] = 0;
-                time[1]++;
-                if(time[1]%60 == 0){
-                    time[1] = 0;
-                    time[2]++;
+            if(!theControll.gewonnen) {
+                time[0]++;
+                if (time[0] % 60 == 0) {
+                    time[0] = 0;
+                    time[1]++;
+                    if (time[1] % 60 == 0) {
+                        time[1] = 0;
+                        time[2]++;
+                    }
                 }
+                timerLabel.setText("Game time: " + time[2] + "h " + time[1] + "m " + time[0] + "s");
+            }else{
+                timerLabel.setText("Game time: " + time[2] + "h " + time[1] + "m " + time[0] + "s");
             }
-            timerLabel.setText("Spielzeit: " + time[2] +"h "+ time[1] +"m "+ time[0] + "s");
         };
 
         //Timer intervall setzen, starten und auf Sudoku Oberfläche hinzufügen
@@ -83,16 +89,31 @@ public class SudokuPanel extends JPanel {
         //Exit Button initialisieren inkl. Action Listener
         buttonExit = new JButton("Exit");
         buttonExit.addActionListener(e -> {
-            int reply = JOptionPane.showConfirmDialog(null, "Wirklich beenden?", "Programm beenden?", JOptionPane.YES_NO_OPTION);
+            int reply = JOptionPane.showConfirmDialog(null, "Do you really want to leave the game?", "Exit Sudoku?", JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
                 System.exit(0);
             }
         });
         createButton(buttonExit, 10, 400);
 
+        //Zählt, wie viele Hilfestellungen man verwendet hat
+        clueCounterLabel = new JLabel("Used clues: 0");
+        clueCounterLabel.setBounds(375, 555, 275, 25);
+        clueCounterLabel.setBackground(Color.WHITE);
+        clueCounterLabel.setFont(new Font("Arial", Font.BOLD, 15) );
+        add(clueCounterLabel);
+
         //Clue Button initialisieren inkl. Action Listener
         buttonClue = new JButton("Get Clue");
-        buttonClue.addActionListener(e -> theControll.callgetClue(grid));
+        buttonClue.addActionListener(e -> {
+
+            //setzt den Hinweiszähler hoch, sobald man einen Hinweis in Anspruch nimmt
+            if(!theControll.noClues){
+               usedClues++;
+            }
+            clueCounterLabel.setText("Used clues: " + usedClues);
+            theControll.callgetClue(grid);
+        });
         createButton(buttonClue, 10, 275);
 
         //New Game Button initialisieren inkl. Action Listener
@@ -100,6 +121,9 @@ public class SudokuPanel extends JPanel {
         buttonNewGame.addActionListener(e -> {
 
             theControll.callSudokuGenerator(grid, difficulty);
+            theControll.gewonnen = false;
+            usedClues = 0;
+            clueCounterLabel.setText("Used clues: 0");
 
             time[0] = 0;
             time[1] = 0;
@@ -350,7 +374,7 @@ public class SudokuPanel extends JPanel {
     }
 
     public void setDifficultyLabel(String difficulty){
-        difficultyLabel.setText("Schwierigkeit: " + difficulty);
+        difficultyLabel.setText("Difficulty: " + difficulty);
     }
 
     public String getDifficulty(){
