@@ -49,7 +49,8 @@ public class SudokuPanel extends JPanel {
         //Standardwert Schwierigkeit
         difficulty = "medium";
         difficultyLabel = new JLabel("Schwierigkeit: " + difficulty);
-        difficultyLabel.setBounds(717, 555, 275, 25);
+        difficultyLabel.setHorizontalAlignment(JLabel.RIGHT);
+        difficultyLabel.setBounds(600, 555, 275, 25);
         difficultyLabel.setFont(new Font("Arial", Font.BOLD, 15) );
         add(difficultyLabel);
 

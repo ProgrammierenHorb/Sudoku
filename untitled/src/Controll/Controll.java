@@ -94,7 +94,11 @@ public class Controll {
             JOptionPane.showMessageDialog(null, "Not Filled: " + notfilled + "\nWrong: " + wrong + "\nRight: " + right);
         }
         else {
-            JOptionPane.showMessageDialog(null, "Gewonnen");
+           // JOptionPane.showMessageDialog(null, "Gewonnen");
+            JFrame gewonnenFrame = new JFrame("Gewonnen");
+
+           // gewonnenFrame.setBounds();
+            //gewonnenFrame.add(lama);
         }
     }
 }
