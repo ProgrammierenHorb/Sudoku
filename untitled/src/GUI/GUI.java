@@ -9,9 +9,10 @@ import Sudoku.SudokuPanel;
 
 public class GUI {
     private final SudokuPanel sudokuPanel;
+    private final Control theControll;
 
     public GUI(Control theControll){
-
+        this.theControll = theControll;
         JFrame frame = new JFrame("Sudoku");
         frame.setResizable(false);
         try {

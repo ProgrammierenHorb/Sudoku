@@ -9,8 +9,8 @@ import java.util.List;
 
 public class SudokuGenerator extends Generator {
 
-    int solutions;
-    List<Integer> array1to9;
+    private int solutions;
+    private List<Integer> array1to9;
     protected boolean kill = false;
 
     public SudokuGenerator() {

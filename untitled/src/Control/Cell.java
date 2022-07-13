@@ -13,8 +13,8 @@ public abstract class Cell extends JPanel {
     protected Font cellFont;
     protected Font notesFont;
 
-    GridLayout notesLayout = new GridLayout(3, 3);
-    GridBagLayout valueLayout = new GridBagLayout();
+    private GridLayout notesLayout = new GridLayout(3, 3);
+    private GridBagLayout valueLayout = new GridBagLayout();
 
     public Cell(int[] position) {
         this.position = position;
