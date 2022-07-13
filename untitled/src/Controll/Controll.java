@@ -1,70 +1,71 @@
 package Controll;
-import ADT.SudokuCell;
+import Sudoku.SudokuCell;
 import GUI.GUI;
-import Solver.Solver;
-import Generator.Generator;
+import Sudoku.SudokuGenerator;
+import Sudoku.SudokuPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Collections;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Controll {
-    private GUI theGUI;
+    public boolean gewonnen = false;
+    public boolean noClues = false;
+    private GUI gui;
+    private SudokuGenerator sudokuGenerator;
     public Controll(){
-
-        theGUI = new GUI(this);
-
+        sudokuGenerator = new SudokuGenerator();
+        gui = new GUI(this);
     }
 
     public static void main(String[] args){
-
-        Controll theControll = new Controll();
-
+        new Controll();
     }
-
-    Solver sudokuSolver = new Solver();
-    Generator sudokuGenerator = new Generator();
 
     public void callgetClue(SudokuCell[][] grid){
         boolean clueFound = false;
-        SudokuCell[][] checkGrid = sudokuGenerator.getCurrentFilledGrid();
+        int[][] checkGrid = sudokuGenerator.getCurrentFilledGrid();
         List<int[]> notFilledCells = new ArrayList();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 grid[i][j].updateValue();
-                if(grid[i][j].getIntValue() == 0){
+                if(grid[i][j].getCellValue() == 0){
                     notFilledCells.add(new int[] {i, j});
                     clueFound = true;
                 }
             }
         }
         if(!clueFound){
-            JOptionPane.showMessageDialog(null, "Keine weiteren Tipps möglich");
+            noClues = true;
+            JOptionPane.showMessageDialog(null, "There are no clues awailable anymore");
         }
         else{
             int random = (int) (Math.random() * notFilledCells.size());
             int y = notFilledCells.get(random)[0];
             int x = notFilledCells.get(random)[1];
-            grid[y][x].setValueandDraw(checkGrid[y][x].getIntValue());
-            grid[y][x].markwithColor(new Color(255, 246, 179));
+            grid[y][x].setValueandDraw(checkGrid[y][x]);
+            grid[y][x].markWithColor(new Color(255, 246, 179));
         }
     }
-    public void callSudokuGenerator(SudokuCell[][] grid){
-        sudokuGenerator.generateFilledGrid(grid);
+    public void callSudokuGenerator(SudokuCell[][] grid, String difficulty){
+        sudokuGenerator.generateFilledGrid(grid, difficulty);
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 grid[i][j].markDefault();
                 grid[i][j].drawValueOnGUI();
+                for(int k = 0; k < 9; k++){
+                    grid[i][j].getNotes()[k].setText("");
+                }
             }
         }
-
     }
 
     public void callSudokuInputCheck(SudokuCell[][] inputgrid){
 
-        SudokuCell[][] checkGrid = sudokuGenerator.getCurrentFilledGrid();
+        int[][] checkGrid = sudokuGenerator.getCurrentFilledGrid();
 
         boolean won = true;
 
@@ -76,16 +77,16 @@ public class Controll {
             for(int j = 0; j < 9; j++){
                 inputgrid[i][j].updateValue();
                 if(!inputgrid[i][j].isLocked()){
-                    if(inputgrid[i][j].getIntValue() == 0){
+                    if(inputgrid[i][j].getCellValue() == 0){
                         inputgrid[i][j].markDefault();
                         won = false;
                         notfilled++;
-                    } else if (inputgrid[i][j].getIntValue() != checkGrid[i][j].getIntValue()) {
-                        inputgrid[i][j].markwithColor(new Color(255, 168, 168));
+                    } else if (inputgrid[i][j].getCellValue() != checkGrid[i][j]) {
+                        inputgrid[i][j].markWithColor(new Color(255, 168, 168));
                         won = false;
                         wrong++;
                     } else {
-                        inputgrid[i][j].markwithColor(new Color(179, 255, 202));
+                        inputgrid[i][j].markWithColor(new Color(179, 255, 202));
                         right++;
                     }
                 }
@@ -95,10 +96,30 @@ public class Controll {
             }
         }
         if(!won){
+            gewonnen = false;
             JOptionPane.showMessageDialog(null, "Not Filled: " + notfilled + "\nWrong: " + wrong + "\nRight: " + right);
         }
         else {
-            JOptionPane.showMessageDialog(null, "Gewinde Gewinde Gewinde");
+            gewonnen = true;
+            JFrame gewonnenFrame = new JFrame("Gewonnen");
+            URL url;
+            try{
+                url = this.getClass().getResource("/rsc/DancingMonkey.gif");
+                ImageIcon icon =  new ImageIcon(url);
+                JLabel label = new JLabel(icon);
+
+                label.setBounds(0, 0, 300, 216);
+                gewonnenFrame.getContentPane().add(label);
+                gewonnenFrame.pack();
+                gewonnenFrame.setBounds(400, 400, 360, 276);
+                gewonnenFrame.setLocationRelativeTo(null);
+
+                gewonnenFrame.getContentPane().setBackground(Color.WHITE);
+                gewonnenFrame.setVisible(true);
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }
