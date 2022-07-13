@@ -15,7 +15,7 @@ public class GUI {
         JFrame frame = new JFrame("Sudoku");
         frame.setResizable(false);
         try {
-            URL url = this.getClass().getResource("/rsc/SudokuIcon.png");
+            URL url = this.getClass().getResource("/rsc/sudoku-logo.png");
             assert url != null;
             ImageIcon icon =  new ImageIcon(url);
             frame.setIconImage(icon.getImage());
@@ -27,7 +27,7 @@ public class GUI {
         frame.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setBackground(Color.white);
 
         sudokuPanel = new SudokuPanel(theControll);

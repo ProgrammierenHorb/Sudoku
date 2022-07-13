@@ -5,7 +5,7 @@ import javax.swing.border.CompoundBorder;
 import java.awt.*;
 
 public abstract class Cell extends JPanel {
-    private JLabel[] notes;
+    protected JLabel[] notes;
     protected int cellValue;
     protected JLabel textField;
     protected int[] position;
@@ -15,11 +15,6 @@ public abstract class Cell extends JPanel {
 
     GridLayout notesLayout = new GridLayout(3, 3);
     GridBagLayout valueLayout = new GridBagLayout();
-
-    public Cell() {
-        cellValue = 0;
-        init();
-    }
 
     public Cell(int[] position) {
         this.position = position;
@@ -37,7 +32,6 @@ public abstract class Cell extends JPanel {
         notesFont = new Font("Arial", Font.BOLD, 12);
         textField.setFont(cellFont);
         drawBorder();
-
     }
 
     public void initNotes(){

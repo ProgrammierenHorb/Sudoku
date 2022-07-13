@@ -113,6 +113,7 @@ public class Control {
                 gewonnenFrame.pack();
                 gewonnenFrame.setBounds(400, 400, 360, 276);
                 gewonnenFrame.setLocationRelativeTo(null);
+                gewonnenFrame.setResizable(false);
 
                 gewonnenFrame.getContentPane().setBackground(Color.WHITE);
                 gewonnenFrame.setVisible(true);

@@ -17,8 +17,8 @@ public class SudokuGenerator extends Generator {
 
         array1to9 = new ArrayList<>();
 
-        for (int i = 0; i < 9; i++) {
-            array1to9.add(i + 1);
+        for (int i = 1; i < 10; i++) {
+            array1to9.add(i);
         }
     }
 
@@ -177,5 +177,4 @@ public class SudokuGenerator extends Generator {
         }
         solutions++;
     }
-
 }
