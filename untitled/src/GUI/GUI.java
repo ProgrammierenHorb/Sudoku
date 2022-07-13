@@ -5,11 +5,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 import Controll.Controll;
-import Killer.KillerPanel;
 import Sudoku.SudokuPanel;
 
 public class GUI {
     private JFrame frame;
+    private SudokuPanel sudokuPanel;
     private JMenuBar menuBar;
     private JMenu modeSelection;
     private JMenuItem difficulty_easy;
@@ -27,7 +27,7 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBackground(Color.white);
 
-        SudokuPanel sudokuPanel = new SudokuPanel(theControll);
+        sudokuPanel = new SudokuPanel(theControll);
         frame.setContentPane(sudokuPanel);
 
         menuBar = new JMenuBar();
@@ -60,4 +60,7 @@ public class GUI {
         frame.setVisible(true);
     }
 
+    public void setClueCount(int clues){
+        sudokuPanel.setClueCount(clues);
+    }
 }

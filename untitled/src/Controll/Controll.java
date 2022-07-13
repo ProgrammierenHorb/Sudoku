@@ -2,18 +2,16 @@ package Controll;
 import Sudoku.SudokuCell;
 import GUI.GUI;
 import Sudoku.SudokuGenerator;
-import Sudoku.SudokuPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Controll {
     public boolean gewonnen = false;
-    public boolean noClues = false;
+    private int cluesUsed = 0;
     private GUI gui;
     private SudokuGenerator sudokuGenerator;
     public Controll(){
@@ -39,18 +37,20 @@ public class Controll {
             }
         }
         if(!clueFound){
-            noClues = true;
-            JOptionPane.showMessageDialog(null, "There are no clues awailable anymore");
+            JOptionPane.showMessageDialog(null, "There are no clues available anymore");
         }
         else{
+            gui.setClueCount(++cluesUsed);
             int random = (int) (Math.random() * notFilledCells.size());
             int y = notFilledCells.get(random)[0];
             int x = notFilledCells.get(random)[1];
+            grid[y][x].setValueLayout();
             grid[y][x].setValueandDraw(checkGrid[y][x]);
             grid[y][x].markWithColor(new Color(255, 246, 179));
         }
     }
     public void callSudokuGenerator(SudokuCell[][] grid, String difficulty){
+        cluesUsed = 0;
         sudokuGenerator.generateFilledGrid(grid, difficulty);
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){

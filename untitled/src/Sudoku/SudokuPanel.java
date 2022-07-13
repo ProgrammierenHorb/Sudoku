@@ -19,7 +19,6 @@ public class SudokuPanel extends JPanel {
     private SudokuCell currentSelectedCell;
     private String difficulty;
     private JLabel timerLabel;
-    private int usedClues;
     private JLabel clueCounterLabel;
     private JLabel difficultyLabel;
     private Timer timer;
@@ -107,11 +106,6 @@ public class SudokuPanel extends JPanel {
         buttonClue = new JButton("Get Clue");
         buttonClue.addActionListener(e -> {
 
-            //setzt den Hinweiszähler hoch, sobald man einen Hinweis in Anspruch nimmt
-            if(!theControll.noClues){
-               usedClues++;
-            }
-            clueCounterLabel.setText("Used clues: " + usedClues);
             theControll.callgetClue(grid);
         });
         createButton(buttonClue, 10, 275);
@@ -122,7 +116,6 @@ public class SudokuPanel extends JPanel {
 
             theControll.callSudokuGenerator(grid, difficulty);
             theControll.gewonnen = false;
-            usedClues = 0;
             clueCounterLabel.setText("Used clues: 0");
 
             time[0] = 0;
@@ -293,6 +286,10 @@ public class SudokuPanel extends JPanel {
         }
     }
 
+    public void setClueCount(int clues){
+        clueCounterLabel.setText("Used clues: " + clues);
+    }
+
     //Markiert alle Zellen, die in der gleichen Zeile, Spalte oder 3x3 Quadrat wie die gegebene Position sind
     private void markCellsSelected(int[] position) {
         Color colormarkselected = new Color(215, 255, 255);
@@ -377,9 +374,6 @@ public class SudokuPanel extends JPanel {
         difficultyLabel.setText("Difficulty: " + difficulty);
     }
 
-    public String getDifficulty(){
-        return this.difficulty;
-    }
 
 }
 

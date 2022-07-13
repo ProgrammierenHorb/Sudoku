@@ -123,8 +123,6 @@ public class SudokuGenerator extends Generator {
             int column = (int) (Math.random()*9);
 
             if(grid[row][column].getCellValue() != 0){
-                //System.out.println("Countremove:"+ countremove);
-                //System.out.println("solutions:"+ solutions);
                 countremove--;
                 rememberLastValue = grid[row][column].getCellValue();
                 grid[row][column].setCellValue(0);
@@ -132,7 +130,6 @@ public class SudokuGenerator extends Generator {
                 solutions = getNrOfSolutions(grid);
 
                 if(solutions > 1 && countremove > toleranz){
-                    System.out.println("ho");
                     if (difficulty.equals("medium")){
                         countremove = 55;
                     }
