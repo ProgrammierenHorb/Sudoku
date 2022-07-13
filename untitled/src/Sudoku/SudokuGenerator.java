@@ -1,7 +1,7 @@
 package Sudoku;
 
-import Controll.Generator;
-import Controll.Cell;
+import Control.Generator;
+import Control.Cell;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,7 +70,7 @@ public class SudokuGenerator extends Generator {
     }
 
     @Override
-    public Cell[][] fillGrid(Cell[][] grid){
+    public void fillGrid(Cell[][] grid){
         for(int y = 0; y < 9; y++){
             for(int x = 0; x < 9; x++) {
                 if(grid[y][x].getCellValue() == 0){
@@ -85,12 +85,11 @@ public class SudokuGenerator extends Generator {
                             }
                         }
                     }
-                    return grid;
+                    return;
                 }
             }
         }
         kill = true;
-        return grid;
     }
 
     @Override
@@ -108,14 +107,13 @@ public class SudokuGenerator extends Generator {
 
         if (difficulty.equals("medium")){
             countremove = 55;
-            toleranz = 5;
         }
         else{
             countremove = 45;
-            toleranz = 5;
         }
+        toleranz = 5;
 
-        int rememberLastValue = 0;
+        int rememberLastValue;
 
         while(countremove > 0){
 
@@ -162,7 +160,7 @@ public class SudokuGenerator extends Generator {
     }
 
     @Override
-    protected Cell[][] nrOfSolutions(Cell[][] grid){
+    protected void nrOfSolutions(Cell[][] grid){
         for(int y = 0; y < 9; y++){
             for(int x = 0; x < 9; x++) {
                 if(grid[y][x].getCellValue() == 0){
@@ -173,12 +171,11 @@ public class SudokuGenerator extends Generator {
                             grid[y][x].setCellValue(0);
                         }
                     }
-                    return grid;
+                    return;
                 }
             }
         }
         solutions++;
-        return grid;
     }
 
 }

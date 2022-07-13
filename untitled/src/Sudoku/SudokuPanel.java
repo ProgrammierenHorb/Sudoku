@@ -1,33 +1,26 @@
 package Sudoku;
 
 import Actions.*;
-import Controll.Controll;
+import Control.Control;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class SudokuPanel extends JPanel {
-    private Controll theControll;
-    private JPanel gridPanel;
-    private JPanel buttonPanel;
-    private JButton buttonExit;
-    private JButton buttonClue;
-    private JButton buttonNewGame;
-    private JButton buttonCheck;
+    private final JPanel gridPanel;
+    private final JPanel buttonPanel;
     private SudokuCell[][] grid;
     private SudokuCell currentSelectedCell;
     private String difficulty;
-    private JLabel timerLabel;
-    private JLabel clueCounterLabel;
-    private JLabel difficultyLabel;
-    private Timer timer;
+    private final JLabel timerLabel;
+    private final JLabel clueCounterLabel;
+    private final JLabel difficultyLabel;
     public int[] time = {0,0,0};
 
 
-    public SudokuPanel(Controll theControll) {
+    public SudokuPanel(Control theControl) {
         //Referenz auf Controll-Instanz in Attributen speichern
-        this.theControll = theControll;
 
         //Initialisierung von der Sudoku Oberfläche
         setFocusable(true);
@@ -64,7 +57,7 @@ public class SudokuPanel extends JPanel {
         timerLabel.setBackground(Color.WHITE);
         timerLabel.setFont(new Font("Arial", Font.BOLD, 15) );
         ActionListener timerAction = e -> {
-            if(!theControll.gewonnen) {
+            if(!theControl.gewonnen) {
                 time[0]++;
                 if (time[0] % 60 == 0) {
                     time[0] = 0;
@@ -80,13 +73,13 @@ public class SudokuPanel extends JPanel {
             }
         };
 
-        //Timer intervall setzen, starten und auf Sudoku Oberfläche hinzufügen
-        timer = new Timer(1000, timerAction);
+        //Timer Intervall setzen, starten und auf Sudoku Oberfläche hinzufügen
+        Timer timer = new Timer(1000, timerAction);
         timer.start();
         add(timerLabel);
 
         //Exit Button initialisieren inkl. Action Listener
-        buttonExit = new JButton("Exit");
+        JButton buttonExit = new JButton("Exit");
         buttonExit.addActionListener(e -> {
             int reply = JOptionPane.showConfirmDialog(null, "Do you really want to leave the game?", "Exit Sudoku?", JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
@@ -103,19 +96,16 @@ public class SudokuPanel extends JPanel {
         add(clueCounterLabel);
 
         //Clue Button initialisieren inkl. Action Listener
-        buttonClue = new JButton("Get Clue");
-        buttonClue.addActionListener(e -> {
-
-            theControll.callgetClue(grid);
-        });
+        JButton buttonClue = new JButton("Get Clue");
+        buttonClue.addActionListener(e -> theControl.callgetClue(grid));
         createButton(buttonClue, 10, 275);
 
         //New Game Button initialisieren inkl. Action Listener
-        buttonNewGame = new JButton("New Game");
+        JButton buttonNewGame = new JButton("New Game");
         buttonNewGame.addActionListener(e -> {
 
-            theControll.callSudokuGenerator(grid, difficulty);
-            theControll.gewonnen = false;
+            theControl.callSudokuGenerator(grid, difficulty);
+            theControl.gewonnen = false;
             clueCounterLabel.setText("Used clues: 0");
 
             time[0] = 0;
@@ -127,11 +117,11 @@ public class SudokuPanel extends JPanel {
         createButton(buttonNewGame, 10, 25);
 
         //Check Button initialisieren inkl. Action Listener
-        buttonCheck = new JButton("Check");
-        buttonCheck.addActionListener(e -> theControll.callSudokuInputCheck(grid));
+        JButton buttonCheck = new JButton("Check");
+        buttonCheck.addActionListener(e -> theControl.callSudokuInputCheck(grid));
         createButton(buttonCheck, 10, 150);
 
-        theControll.callSudokuGenerator(grid, difficulty);
+        theControl.callSudokuGenerator(grid, difficulty);
 
         //Panels auf Sudoku Oberfläche hinzufügen
         add(gridPanel);
@@ -154,7 +144,7 @@ public class SudokuPanel extends JPanel {
     public void triggerWriteNote(int value) {
         if (currentSelectedCell != null && !currentSelectedCell.isLocked()) {
             currentSelectedCell.setNotesLayout();
-            if (currentSelectedCell.getNotes()[value - 1].getText() == "") {
+            if (currentSelectedCell.getNotes()[value - 1].getText().equals("")) {
                 currentSelectedCell.getNotes()[value - 1].setText(String.valueOf(value));
             } else {
                 currentSelectedCell.getNotes()[value - 1].setText("");
@@ -242,26 +232,31 @@ public class SudokuPanel extends JPanel {
     public void changeCurrentSelectedCellWithArrowKeys(String direction) {
         if (currentSelectedCell != null) {
 
-            if (direction == "UP") {
-                if (currentSelectedCell.getPosition()[0] > 0) {
-                    currentSelectedCell = grid[currentSelectedCell.getPosition()[0] - 1][currentSelectedCell.getPosition()[1]];
-                    markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
-                }
-            } else if (direction == "DOWN") {
-                if (currentSelectedCell.getPosition()[0] < 8) {
-                    currentSelectedCell = grid[currentSelectedCell.getPosition()[0] + 1][currentSelectedCell.getPosition()[1]];
-                    markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
-                }
-            } else if (direction == "RIGHT") {
-                if (currentSelectedCell.getPosition()[1] < 8) {
-                    currentSelectedCell = grid[currentSelectedCell.getPosition()[0]][currentSelectedCell.getPosition()[1] + 1];
-                    markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
-                }
-            } else if (direction == "LEFT") {
-                if (currentSelectedCell.getPosition()[1] > 0) {
-                    currentSelectedCell = grid[currentSelectedCell.getPosition()[0]][currentSelectedCell.getPosition()[1] - 1];
-                    markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
-                }
+            switch (direction) {
+                case "UP":
+                    if (currentSelectedCell.getPosition()[0] > 0) {
+                        currentSelectedCell = grid[currentSelectedCell.getPosition()[0] - 1][currentSelectedCell.getPosition()[1]];
+                        markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
+                    }
+                    break;
+                case "DOWN":
+                    if (currentSelectedCell.getPosition()[0] < 8) {
+                        currentSelectedCell = grid[currentSelectedCell.getPosition()[0] + 1][currentSelectedCell.getPosition()[1]];
+                        markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
+                    }
+                    break;
+                case "RIGHT":
+                    if (currentSelectedCell.getPosition()[1] < 8) {
+                        currentSelectedCell = grid[currentSelectedCell.getPosition()[0]][currentSelectedCell.getPosition()[1] + 1];
+                        markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
+                    }
+                    break;
+                case "LEFT":
+                    if (currentSelectedCell.getPosition()[1] > 0) {
+                        currentSelectedCell = grid[currentSelectedCell.getPosition()[0]][currentSelectedCell.getPosition()[1] - 1];
+                        markCellsSelected(new int[]{currentSelectedCell.getPosition()[0], currentSelectedCell.getPosition()[1]});
+                    }
+                    break;
             }
         }
     }
@@ -340,27 +335,26 @@ public class SudokuPanel extends JPanel {
         button.setBorder(null);
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-        JButton finalButton = button;
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent evt) {
-                finalButton.setBorder(BorderFactory.createLineBorder(Color.orange, 3));
+                button.setBorder(BorderFactory.createLineBorder(Color.orange, 3));
             }
 
             public void mouseExited(MouseEvent evt) {
-                finalButton.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+                button.setBorder(BorderFactory.createLineBorder(Color.black, 2));
             }
         });
 
         button.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                finalButton.setBorder(BorderFactory.createLineBorder(Color.orange, 3));
+                button.setBorder(BorderFactory.createLineBorder(Color.orange, 3));
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                finalButton.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+                button.setBorder(BorderFactory.createLineBorder(Color.black, 2));
             }
         });
         buttonPanel.add(button);

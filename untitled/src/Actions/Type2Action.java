@@ -1,6 +1,5 @@
 package Actions;
 
-import Controll.Cell;
 import Sudoku.SudokuPanel;
 
 import javax.swing.*;

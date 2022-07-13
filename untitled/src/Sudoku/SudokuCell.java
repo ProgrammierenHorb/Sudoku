@@ -1,16 +1,6 @@
 package Sudoku;
 
-import Controll.Cell;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.File;
+import Control.Cell;
 
 public class SudokuCell extends Cell {
 
@@ -18,7 +8,4 @@ public class SudokuCell extends Cell {
         super(position);
     }
 
-    public SudokuCell(){
-        super();
-    }
 }

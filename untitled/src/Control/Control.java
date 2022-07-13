@@ -1,4 +1,4 @@
-package Controll;
+package Control;
 import Sudoku.SudokuCell;
 import GUI.GUI;
 import Sudoku.SudokuGenerator;
@@ -6,27 +6,26 @@ import Sudoku.SudokuGenerator;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
-import java.util.List;
 import java.util.ArrayList;
 
-public class Controll {
+public class Control {
     public boolean gewonnen = false;
     private int cluesUsed = 0;
-    private GUI gui;
-    private SudokuGenerator sudokuGenerator;
-    public Controll(){
+    private final GUI gui;
+    private final SudokuGenerator sudokuGenerator;
+    public Control(){
         sudokuGenerator = new SudokuGenerator();
         gui = new GUI(this);
     }
 
     public static void main(String[] args){
-        new Controll();
+        new Control();
     }
 
     public void callgetClue(SudokuCell[][] grid){
         boolean clueFound = false;
         int[][] checkGrid = sudokuGenerator.getCurrentFilledGrid();
-        List<int[]> notFilledCells = new ArrayList();
+        ArrayList<int[]> notFilledCells = new ArrayList<>();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 grid[i][j].updateValue();
@@ -105,6 +104,7 @@ public class Controll {
             URL url;
             try{
                 url = this.getClass().getResource("/rsc/DancingMonkey.gif");
+                assert url != null;
                 ImageIcon icon =  new ImageIcon(url);
                 JLabel label = new JLabel(icon);
 
