@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 import Control.Control;
 import Sudoku.SudokuPanel;
@@ -13,6 +14,14 @@ public class GUI {
 
         JFrame frame = new JFrame("Sudoku");
         frame.setResizable(false);
+        try {
+            URL url = this.getClass().getResource("/rsc/SudokuIcon.png");
+            assert url != null;
+            ImageIcon icon =  new ImageIcon(url);
+            frame.setIconImage(icon.getImage());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         int SCREEN_WIDTH = 900;
         int SCREEN_HEIGHT = 620;
         frame.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
