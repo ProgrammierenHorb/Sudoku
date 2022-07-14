@@ -106,15 +106,18 @@ public class SudokuPanel extends JPanel {
         JButton buttonNewGame = new JButton("New Game");
         buttonNewGame.addActionListener(e -> {
 
-            theControl.callSudokuGenerator(grid, difficulty);
-            theControl.gewonnen = false;
-            clueCounterLabel.setText("Used clues: 0");
+            int reply = JOptionPane.showConfirmDialog(null, "Do you really want to start a new Game?\nAll progress will be lost", "Generate new Sudoku?", JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.YES_OPTION) {
+                theControl.callSudokuGenerator(grid, difficulty);
+                theControl.gewonnen = false;
+                clueCounterLabel.setText("Used clues: 0");
 
-            time[0] = 0;
-            time[1] = 0;
-            time[2] = 0;
+                time[0] = 0;
+                time[1] = 0;
+                time[2] = 0;
 
-            setDifficultyLabel(difficulty);
+                setDifficultyLabel(difficulty);
+            }
         });
         createButton(buttonNewGame, 10, 25);
 
