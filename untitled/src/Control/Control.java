@@ -75,6 +75,7 @@ public class Control {
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 inputgrid[i][j].updateValue();
+                inputgrid[i][j].setTextColorDefault();
                 if(!inputgrid[i][j].isLocked()){
                     if(inputgrid[i][j].getCellValue() == 0){
                         inputgrid[i][j].markDefault();

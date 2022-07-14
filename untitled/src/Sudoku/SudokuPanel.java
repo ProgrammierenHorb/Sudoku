@@ -141,32 +141,35 @@ public class SudokuPanel extends JPanel {
     //Methode schreibt festen Wert (SHIFT+zahl) in das jeweilige Feld
     public void triggerWriteValue(int value) {
         if (currentSelectedCell != null && !currentSelectedCell.isLocked()) {
-            markCellKollision(value);
             currentSelectedCell.setValueLayout();
             currentSelectedCell.setValueandDraw(value);
+            markCellKollision();
         }
     }
 
     //Methode hebt Kollisionen hervor
-    public void markCellKollision(int value){
-        if(helpActivated){
-            int currentPos[] = currentSelectedCell.getPosition();
+    public void markCellKollision(){
+        int value = currentSelectedCell.getCellValue();
+        boolean minonemarked = false;
+        if(helpActivated && !currentSelectedCell.isLocked()){ //nur markieren wenn Einstellung getätigt ist und die Zelle nicht gesperrt ist / bereits vom SudokuGenerator ausgefüllt wurde
+            int[] currentPos = currentSelectedCell.getPosition();
             Color colormarkselected = new Color(255, 128, 128);
             for(int i=0; i<9;i++) {
-                if(value == grid[currentPos[0]][i].getCellValue())
+                if(value == grid[currentPos[0]][i].getCellValue() && i != currentPos[1])
                 {
                     grid[currentPos[0]][i].setTextColor(colormarkselected);
+                    minonemarked = true;
                 }
-                else if(value == grid[i][currentPos[1]].getCellValue())
+                if(value == grid[i][currentPos[1]].getCellValue() && i != currentPos[0])
                 {
                     grid[i][currentPos[1]].setTextColor(colormarkselected);
+                    minonemarked = true;
                 }
-                else {
-                    for (int j = 0; j < 9; j++) {
-                        if ((i / 3) == (currentPos[0] / 3) && (j / 3) == (currentPos[1] / 3)) {
-                            if (value == grid[i][j].getCellValue()) {
-                                grid[i][j].setTextColor(colormarkselected);
-                            }
+                for (int j = 0; j < 9; j++) {
+                    if ((i / 3) == (currentPos[0] / 3) && (j / 3) == (currentPos[1] / 3)) {
+                        if (value == grid[i][j].getCellValue() && i != currentPos[0] && j != currentPos[1]){
+                            grid[i][j].setTextColor(colormarkselected);
+                            minonemarked = true;
                         }
                     }
                 }
@@ -179,6 +182,14 @@ public class SudokuPanel extends JPanel {
                     }
                 }
             }
+            if(minonemarked){
+                currentSelectedCell.setTextColor(colormarkselected);
+            }
+            else{
+                currentSelectedCell.setTextColorDefault();
+            }
+            revalidate();
+            repaint();
         }
     }
 
@@ -273,7 +284,6 @@ public class SudokuPanel extends JPanel {
     //Ändert das ausgewählte Sudoku Feld mit Pfeiltasten
     public void changeCurrentSelectedCellWithArrowKeys(String direction) {
         if (currentSelectedCell != null) {
-
             switch (direction) {
                 case "UP":
                     if (currentSelectedCell.getPosition()[0] > 0) {
@@ -300,6 +310,7 @@ public class SudokuPanel extends JPanel {
                     }
                     break;
             }
+            markCellKollision();
         }
     }
 
@@ -371,6 +382,7 @@ public class SudokuPanel extends JPanel {
                     public void mouseClicked(MouseEvent e) {
                         currentSelectedCell = grid[finalI][finalJ];
                         markCellsSelected(new int[]{finalI, finalJ});
+                        markCellKollision();
                     }
                 });
             }
