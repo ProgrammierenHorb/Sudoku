@@ -13,6 +13,7 @@ public class SudokuPanel extends JPanel {
     private SudokuCell[][] grid;
     private SudokuCell currentSelectedCell;
     private String difficulty;
+    private boolean helpActivated = true;
     private final JLabel timerLabel;
     private final JLabel clueCounterLabel;
     private final JLabel difficultyLabel;
@@ -98,7 +99,8 @@ public class SudokuPanel extends JPanel {
         //Clue Button initialisieren inkl. Action Listener
         JButton buttonClue = new JButton("Get Clue");
         buttonClue.addActionListener(e -> theControl.callgetClue(grid));
-        createButton(buttonClue, 10, 275);
+        createButton(buttonClue, 10, 275
+        );
 
         //New Game Button initialisieren inkl. Action Listener
         JButton buttonNewGame = new JButton("New Game");
@@ -121,6 +123,7 @@ public class SudokuPanel extends JPanel {
         buttonCheck.addActionListener(e -> theControl.callSudokuInputCheck(grid));
         createButton(buttonCheck, 10, 150);
 
+
         theControl.callSudokuGenerator(grid, difficulty);
 
         //Panels auf Sudoku Oberfläche hinzufügen
@@ -131,12 +134,43 @@ public class SudokuPanel extends JPanel {
         initKeyBindings();
 
     }
+    public void sethelpActivated(boolean bool){
+        helpActivated = bool;
+    }
 
     //Methode schreibt festen Wert (SHIFT+zahl) in das jeweilige Feld
     public void triggerWriteValue(int value) {
         if (currentSelectedCell != null && !currentSelectedCell.isLocked()) {
+            markCellKollision(value);
             currentSelectedCell.setValueLayout();
             currentSelectedCell.setValueandDraw(value);
+        }
+    }
+
+    //Methode hebt Kollisionen hervor
+    public void markCellKollision(int value){
+        if(helpActivated){
+            int currentPos[] = currentSelectedCell.getPosition();
+            Color colormarkselected = new Color(255, 128, 128);
+            for(int i=0; i<9;i++) {
+                if(value == grid[currentPos[0]][i].getCellValue())
+                {
+                    grid[currentPos[0]][i].setTextColor(colormarkselected);
+                }
+                if(value == grid[i][currentPos[1]].getCellValue())
+                {
+                    grid[i][currentPos[1]].setTextColor(colormarkselected);
+                }
+                for(int j = 0; j<9 ; j++)
+                {
+                    if ((i / 3) == (currentPos[0] / 3) && (j / 3) == (currentPos[1] / 3))
+                    {
+                        if(value == grid[i][j].getCellValue()) {
+                            grid[i][j].setTextColor(colormarkselected);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -292,19 +326,29 @@ public class SudokuPanel extends JPanel {
         int posY = position[0];
         int posX = position[1];
 
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (i == posY) { //Markiert Reihe
-                    grid[i][j].markWithColor(colormarkselected);
-                } else if (j == posX) { //Markiert Spalte
-                    grid[i][j].markWithColor(colormarkselected);
-                } else if ((i / 3) == (posY / 3) && (j / 3) == (posX / 3)) { //Markiert Box
-                    grid[i][j].markWithColor(colormarkselected);
-                } else {
-                    grid[i][j].markDefault();
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if(helpActivated) {
+                        if (i == posY) { //Markiert Reihe
+                            grid[i][j].markWithColor(colormarkselected);
+                            grid[i][j].setTextColorDefault();
+                        } else if (j == posX) { //Markiert Spalte
+                            grid[i][j].markWithColor(colormarkselected);
+                            grid[i][j].setTextColorDefault();
+                        } else if ((i / 3) == (posY / 3) && (j / 3) == (posX / 3)) { //Markiert Box
+                            grid[i][j].markWithColor(colormarkselected);
+                            grid[i][j].setTextColorDefault();
+                        } else {
+                            grid[i][j].markDefault();
+                            grid[i][j].setTextColorDefault();
+                        }
+                    }
+                    else{
+                        grid[i][j].markDefault();
+                        grid[i][j].setTextColorDefault();
+                    }
                 }
             }
-        }
         grid[posY][posX].markWithColor(new Color(140, 236, 239)); //Markiert angeklicktes Feld in einer etwas anderen Farbe
     }
 

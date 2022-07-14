@@ -129,7 +129,17 @@ public abstract class Cell extends JPanel {
     public void markWithColor(Color color){
         setBackground(color);
     }
-
+    public void setTextColor(Color color){
+        textField.setForeground(color);
+    }
+    public void setTextColorDefault(){
+        if(isLocked()){
+            textField.setForeground(new Color(100, 100, 100));
+        }
+        else{
+            textField.setForeground(Color.black);
+        }
+    }
     public void markDefault(){
         setBackground(Color.white);
     }
