@@ -28,6 +28,7 @@ public class Control {
         ArrayList<int[]> notFilledCells = new ArrayList<>();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
+                grid[i][j].markDefault();
                 grid[i][j].updateValue();
                 if(grid[i][j].getCellValue() == 0){
                     notFilledCells.add(new int[] {i, j});
@@ -36,7 +37,7 @@ public class Control {
             }
         }
         if(!clueFound){
-            JOptionPane.showMessageDialog(null, "There are no clues available anymore");
+            JOptionPane.showMessageDialog(null, "There are no more clues available");
         }
         else{
             gui.setClueCount(++cluesUsed);
@@ -75,6 +76,7 @@ public class Control {
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 inputgrid[i][j].updateValue();
+                inputgrid[i][j].setTextColorDefault();
                 if(!inputgrid[i][j].isLocked()){
                     if(inputgrid[i][j].getCellValue() == 0){
                         inputgrid[i][j].markDefault();

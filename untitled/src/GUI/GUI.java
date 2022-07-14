@@ -42,15 +42,41 @@ public class GUI {
 
         JMenu modeSelection = new JMenu("Change difficulty");
         menuBar.add(modeSelection);
+        JMenu helpSelection = new JMenu("Change help Mode");
+        menuBar.add(helpSelection);
 
-        JMenuItem difficulty_easy = new JMenuItem("Easy");
+        JRadioButtonMenuItem difficulty_easy = new JRadioButtonMenuItem("Easy");
         modeSelection.add(difficulty_easy);
-        JMenuItem difficulty_default = new JMenuItem("Default");
+        JRadioButtonMenuItem difficulty_default = new JRadioButtonMenuItem("Default");
         modeSelection.add(difficulty_default);
 
-        difficulty_easy.addActionListener(e -> sudokuPanel.setDifficulty("easy"));
+        difficulty_easy.addActionListener(e -> {
+            sudokuPanel.setDifficulty("easy");
+            difficulty_default.setSelected(false);
+        });
 
-        difficulty_default.addActionListener(e -> sudokuPanel.setDifficulty("default"));
+        difficulty_default.addActionListener(e -> {
+            sudokuPanel.setDifficulty("default");
+            difficulty_easy.setSelected(false);
+        });
+
+        JRadioButtonMenuItem help_ON = new JRadioButtonMenuItem("ON");
+        helpSelection.add(help_ON);
+        JRadioButtonMenuItem help_OFF = new JRadioButtonMenuItem("OFF");
+        helpSelection.add(help_OFF);
+
+        help_ON.addActionListener(e -> {
+            sudokuPanel.sethelpActivated(true);
+            help_OFF.setSelected(false);
+        });
+
+        help_OFF.addActionListener(e -> {
+            sudokuPanel.sethelpActivated(false);
+            help_ON.setSelected(false);
+        });
+
+        difficulty_default.setSelected(true);
+        help_ON.setSelected(true);
         frame.setVisible(true);
     }
 
