@@ -157,17 +157,25 @@ public class SudokuPanel extends JPanel {
                 {
                     grid[currentPos[0]][i].setTextColor(colormarkselected);
                 }
-                if(value == grid[i][currentPos[1]].getCellValue())
+                else if(value == grid[i][currentPos[1]].getCellValue())
                 {
                     grid[i][currentPos[1]].setTextColor(colormarkselected);
                 }
-                for(int j = 0; j<9 ; j++)
-                {
-                    if ((i / 3) == (currentPos[0] / 3) && (j / 3) == (currentPos[1] / 3))
-                    {
-                        if(value == grid[i][j].getCellValue()) {
-                            grid[i][j].setTextColor(colormarkselected);
+                else {
+                    for (int j = 0; j < 9; j++) {
+                        if ((i / 3) == (currentPos[0] / 3) && (j / 3) == (currentPos[1] / 3)) {
+                            if (value == grid[i][j].getCellValue()) {
+                                grid[i][j].setTextColor(colormarkselected);
+                            }
                         }
+                    }
+                }
+            }
+            for(int i=0; i<9;i++) {
+                for (int j = 0; j < 9; j++) {
+                    if(value != grid[i][j].getCellValue())
+                    {
+                        grid[i][j].setTextColorDefault();
                     }
                 }
             }
