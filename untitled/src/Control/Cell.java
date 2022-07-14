@@ -79,18 +79,41 @@ public abstract class Cell extends JPanel {
         if (position != null) {
             //Für die dicken Linen in den Eckpunkten (3, 3); (6, 3); (3, 6); (6, 6);
             if ((position[0] == 3 && position[1] == 3) || (position[0] == 6 && position[1] == 3) || (position[0] == 3 && position[1] == 6) || (position[0] == 6 && position[1] == 6)) {
-                setBorder(new CompoundBorder(BorderFactory.createMatteBorder(3, 3, 0, 0, Color.black),
+                setBorder(new CompoundBorder(BorderFactory.createMatteBorder(2, 2, 0, 0, Color.black),
                         BorderFactory.createMatteBorder(0, 0, 1, 1, Color.GRAY)));
             }
+            else if((position[0] == 2 && position[1] == 2) || (position[0] == 5 && position[1] == 2) || (position[0] == 2 && position[1] == 5) || (position[0] == 5 && position[1] == 5)) {
+                setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 2, 2, Color.black),
+                        BorderFactory.createMatteBorder(1, 1, 0, 0, Color.GRAY)));
+            }
+            else if((position[0] == 3 && position[1] == 2) || (position[0] == 6 && position[1] == 2) || (position[0] == 3 && position[1] == 5) || (position[0] == 6 && position[1] == 5)) {
+                setBorder(new CompoundBorder(BorderFactory.createMatteBorder(2, 0, 0, 2, Color.black),
+                        BorderFactory.createMatteBorder(0, 1, 1, 0, Color.GRAY)));
+            }
+            else if((position[0] == 2 && position[1] == 3) || (position[0] == 5 && position[1] == 3) || (position[0] == 2 && position[1] == 6) || (position[0] == 5 && position[1] == 6)) {
+                setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 2, 2, 0, Color.black),
+                        BorderFactory.createMatteBorder(1, 0, 0, 1, Color.GRAY)));
+            }
+
+
             //Für die dicken Linen der horizontalen Achse;
+            else if(position[0] == 2 || position[0] == 5){
+                setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.black),
+                        BorderFactory.createMatteBorder(1, 1, 0, 1, Color.GRAY)));
+            }
             else if (position[0] == 3 || position[0] == 6) {
-                setBorder(new CompoundBorder(BorderFactory.createMatteBorder(3, 0, 0, 0, Color.black),
+                setBorder(new CompoundBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.black),
                         BorderFactory.createMatteBorder(0, 1, 1, 1, Color.GRAY)));
             }
+
             //Für die dicken Linen der vertikalen Achse;
             else if (position[1] == 3 || position[1] == 6) {
-                setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 3, 0, 0, Color.black),
+                setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 2, 0, 0, Color.black),
                         BorderFactory.createMatteBorder(1, 0, 1, 1, Color.GRAY)));
+            }
+            else if(position[1] == 2 || position[1] == 5){
+                setBorder(new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.black),
+                        BorderFactory.createMatteBorder(1, 1, 1, 0, Color.GRAY)));
             }
         }
     }
