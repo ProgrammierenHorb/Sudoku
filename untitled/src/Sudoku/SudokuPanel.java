@@ -151,7 +151,7 @@ public class SudokuPanel extends JPanel {
     public void markCellKollision(){
         int value = currentSelectedCell.getCellValue();
         boolean minonemarked = false;
-        if(helpActivated && !currentSelectedCell.isLocked()){ //nur markieren wenn Einstellung getätigt ist und die Zelle nicht gesperrt ist / bereits vom SudokuGenerator ausgefüllt wurde
+        if(helpActivated && !currentSelectedCell.isLocked() && currentSelectedCell.getCellValue() != 0){ //nur markieren wenn Einstellung getätigt ist und die Zelle nicht gesperrt ist / bereits vom SudokuGenerator ausgefüllt wurde
             int[] currentPos = currentSelectedCell.getPosition();
             Color colormarkselected = new Color(255, 128, 128);
             for(int i=0; i<9;i++) {
